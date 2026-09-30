@@ -1,0 +1,10 @@
+# 本地数据（个人代码、问答、偏好）
+latest.md
+latest.json
+history/
+qa.jsonl
+profile.md
+profile_history/
+learn_state.json
+__pycache__/
+.DS_Store

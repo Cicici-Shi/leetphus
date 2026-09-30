@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "Leetphus — LeetCode hints, not answers",
+  "version": "1.3.0",
+  "description": "刷 leetcode.cn 时在侧边栏问 Claude：它看得到你的代码和判题结果，没 AC 前不剧透，AC 后帮你看代码能不能更简洁。",
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "cookies"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8765/*",
+    "https://leetcode.cn/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Leetphus",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+L",
+        "mac": "Alt+Shift+L"
+      },
+      "description": "打开侧边栏"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://leetcode.cn/problems/*"
+      ],
+      "js": [
+        "inject.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://leetcode.cn/problems/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "short_name": "Leetphus",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
+}

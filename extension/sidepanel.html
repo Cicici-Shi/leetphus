@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leetphus</title>
+<style>
+  :root{
+    --bg:#faf9f7; --panel:#ffffff; --fg:#1f1e1c; --mute:#6f6b66; --line:#e6e2dc;
+    --accent:#c96442; --accent-fg:#ffffff; --user:#efe9e1; --code:#f3f1ee; --err:#b3261e; --ok:#2f8f4e;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --bg:#1f1e1d; --panel:#262624; --fg:#ecebe8; --mute:#a19d97; --line:#3a3936;
+    --accent:#d97757; --accent-fg:#ffffff; --user:#34322f; --code:#171716; --err:#ff8a80; --ok:#5cc07a;
+    color-scheme:dark;
+  }}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex;flex-direction:column}
+  header{padding:10px 14px;border-bottom:1px solid var(--line);display:grid;gap:2px}
+  .row{display:flex;align-items:center;gap:8px;min-width:0}
+  .t{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  select{font:inherit;font-size:12px;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:1px 4px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--mute);flex:none}
+  .dot.ok{background:var(--ok)}.dot.bad{background:var(--err)}
+  #status{flex:none;font-size:12px}
+  #status:empty{display:none}
+  .st.bad{color:var(--err)}.st.good{color:var(--ok)}
+  button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;padding:3px 10px;font-size:12px}
+  button:hover{border-color:var(--mute)}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  textarea:focus,textarea:focus-visible{outline:none;box-shadow:none}
+  #log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+  .m{min-width:0;overflow-wrap:anywhere}
+  .m.u{align-self:flex-end;max-width:88%;background:var(--user);padding:7px 11px;border-radius:12px;white-space:pre-wrap}
+  .m.a p{margin:0 0 8px}
+  .m.a p:last-child{margin-bottom:0}
+  .m.a pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:10px;overflow-x:auto;margin:6px 0 10px;font:12.5px/1.5 ui-monospace,Menlo,monospace;white-space:pre}
+  .m.a code{font:12.5px ui-monospace,Menlo,monospace;background:var(--code);padding:1px 4px;border-radius:4px}
+  .m.a pre code{background:none;padding:0}
+  .m.a h1,.m.a h2,.m.a h3,.m.a h4{font-size:15px;margin:10px 0 4px}
+  .m.a ul,.m.a ol{margin:0 0 8px;padding-left:22px}
+  .m.a .tbl{overflow-x:auto;margin:6px 0 10px}
+  .m.a table{border-collapse:collapse;font-size:13px;min-width:100%}
+  .m.a th,.m.a td{border:1px solid var(--line);padding:4px 8px;text-align:left;vertical-align:top}
+  .m.a th{background:var(--code);font-weight:600}
+  .m.err{color:var(--err);font-size:13px}
+  .thinking{color:var(--mute);font-size:13px}
+  .empty{color:var(--mute);font-size:13px;display:grid;gap:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chips button{border-radius:999px;padding:4px 11px}
+  footer{border-top:1px solid var(--line);padding:10px 12px;display:grid;gap:6px;background:var(--bg)}
+  .box{display:flex;gap:8px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:8px}
+  textarea{flex:1;min-width:0;resize:none;border:0;background:transparent;color:var(--fg);font:inherit;outline:none}
+  /* 提问框随内容长高，最多到 240px 或面板高度的 40%，再多就内部滚动 */
+  #q{field-sizing:content;min-height:44px;max-height:min(240px,40vh);overflow-y:auto}
+  #send{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);width:30px;height:30px;padding:0;border-radius:50%;display:grid;place-items:center;flex:none}
+  #send[disabled]{opacity:.4;cursor:default}
+  #send.stop{background:var(--panel);color:var(--fg);border-color:var(--line)}
+  header{position:relative}
+  #sessions{position:absolute;left:10px;right:10px;top:calc(100% + 4px);z-index:5;max-height:60vh;overflow-y:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:4px}
+  #sessions[hidden]{display:none}
+  .sess{display:flex;align-items:center;gap:4px;border-radius:8px}
+  .sess.on{background:var(--user)}
+  .sess .pick{flex:1;min-width:0;display:grid;gap:1px;text-align:left;border:0;background:none;padding:7px 9px;border-radius:8px}
+  .sess .pick:hover{background:var(--user)}
+  .sess .st{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sess .sm{font-size:11px;color:var(--mute)}
+  .sess .del{border:0;background:none;color:var(--mute);padding:4px 8px}
+  .sess .del:hover,.sess .del.sure{color:var(--err)}
+  .notlc{padding:24px 16px;color:var(--mute)}
+  .learn{align-self:center;font-size:12px;color:var(--mute);background:var(--user);padding:2px 10px;border-radius:999px}
+  #prefs{flex:1;display:flex;flex-direction:column;gap:8px;padding:12px 14px;min-height:0}
+  #prefs[hidden],#log[hidden],footer[hidden],.row[hidden]{display:none}
+  .back{display:inline-flex;align-items:center;gap:4px;background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-size:13px;padding:4px 12px 4px 8px}
+  .back:hover{border-color:var(--accent);filter:brightness(1.08)}
+  .frow{display:flex;align-items:center}
+  .frow select{border-color:transparent;background:transparent;color:var(--mute);padding:1px 2px}
+  .frow select:hover{color:var(--fg)}
+  #prefs .meta{font-size:12px;color:var(--mute)}
+  #prefText{flex:1;min-height:0;resize:none;width:100%;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px;font:13px/1.6 ui-monospace,Menlo,monospace}
+  #prefs .row button.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+</style>
+</head>
+<body>
+  <header>
+    <div class="row" id="chatBar"><span class="t" id="title">Leetphus</span><span id="status" class="st"></span><button id="prefBtn" title="查看和修改它记住的偏好">偏好</button><button id="hist" title="这道题的所有对话">会话</button><button id="new" title="新开一段对话，旧的会保留">新对话</button></div>
+    <div class="row" id="prefBar" hidden><button id="prefBack" class="back" title="回到对话（Esc）"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>返回对话</button><span class="t">偏好</span></div>
+    <div id="sessions" hidden></div>
+  </header>
+  <main id="log"></main>
+  <section id="prefs" hidden>
+    <div class="meta" id="prefMeta">读取中…</div>
+    <textarea id="prefText" spellcheck="false" placeholder="还没有偏好。多问几个问题，或者直接纠正它（比如「以后别直接给完整代码」），它会自动记下来。也可以直接在这里写。"></textarea>
+    <div class="row"><button id="prefSave" class="primary">保存修改</button><button id="prefReflect" title="根据最近的问答重新整理一次">立即整理</button><span class="meta" id="prefMsg"></span></div>
+  </section>
+  <footer id="foot">
+    <div class="box">
+      <textarea id="q" placeholder="问点什么，比如：为什么这个用例错了？"></textarea>
+      <button id="send" title="发送（回车）" aria-label="发送"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="frow"><select id="model" title="回答用的模型"><option value="">Opus 5.5</option><option value="claude-opus-4-6">Opus 4.6</option></select></div>
+  </footer>
+  <script src="shared.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

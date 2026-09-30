@@ -240,6 +240,15 @@ function learnNote(reason) {
   el.textContent = reason === "correction" ? "已记下这次纠正，正在更新偏好…" : "正在根据最近的问题整理偏好…";
   log.appendChild(el);
   scrollDown();
+  // 整理在后台跑，结束后把提示改成完成（最多等 3 分钟）
+  const t0 = Date.now();
+  const poll = setInterval(async () => {
+    try {
+      const p = await (await fetch(SERVER + "/profile", { cache: "no-store" })).json();
+      if (!p.reflecting) { clearInterval(poll); el.textContent = "偏好已更新"; }
+    } catch (_) {}
+    if (Date.now() - t0 > 180000) { clearInterval(poll); el.remove(); }
+  }, 2000);
 }
 
 let prefPoll = null;

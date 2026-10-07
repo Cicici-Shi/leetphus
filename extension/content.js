@@ -47,7 +47,13 @@
   }
 
   // ---------- 判题结果 → Markdown ----------
-  const fence = (s, lang = "") => "```" + lang + "\n" + String(s).replace(/\n+$/, "") + "\n```";
+  // 超长用例（比如 10^5 个元素的数组）原样附上会让每次提问都几十万 token，只留头尾
+  const clipLine = (line) => {
+    if (line.length <= 600) return line;
+    const items = (line.match(/,/g) || []).length + 1;
+    return `${line.slice(0, 300)} …（这一行共 ${line.length} 字${items > 1 ? `、约 ${items} 个元素` : ""}，中间省略）… ${line.slice(-100)}`;
+  };
+  const fence = (s, lang = "") => "```" + lang + "\n" + String(s).replace(/\n+$/, "").split("\n").map(clipLine).join("\n") + "\n```";
   const arr = (v) => (Array.isArray(v) ? v.join("\n") : v ?? "");
 
   function resultMd(r) {
@@ -110,6 +116,11 @@
     if (msg?.type === "getSnapshot") {
       buildSnapshot().then(sendResponse);
       return true;
+    }
+    if (msg?.type === "getQuestion") { // 侧边栏的「白板」按钮要题面 HTML
+      const el = document.querySelector('[data-track-load="description_content"]');
+      const [, id = "", t = title()] = title().match(/^(\S+?)\.\s*(.*)$/) || [];
+      sendResponse(el ? { slug: slug(), id, title: t, difficulty: "", content: el.innerHTML } : null);
     }
   });
   // 有新的运行结果 / 换题时通知侧边栏刷新

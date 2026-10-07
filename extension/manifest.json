@@ -6,7 +6,8 @@
   "permissions": [
     "sidePanel",
     "storage",
-    "cookies"
+    "cookies",
+    "clipboardWrite"
   ],
   "host_permissions": [
     "http://127.0.0.1:8765/*",
@@ -53,6 +54,15 @@
       ],
       "js": [
         "content.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "http://127.0.0.1:8765/board/*"
+      ],
+      "js": [
+        "board-content.js"
       ],
       "run_at": "document_idle"
     }

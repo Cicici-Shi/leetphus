@@ -4,9 +4,11 @@ const log = $("#log");
 
 let tabId = null;
 let slug = null;
+let onLcPage = false; // 当前标签页是不是力扣题目页（白板按钮据此决定打开哪个页面）
 let ctrl = null; // 正在进行的请求
+let rendered = false; // 对话是否已经画过（换题不再重画，对话接着用）
 
-// 对话记录的读写（loadStore / loadConv / saveConv）在 shared.js，按题目存在 chrome.storage.local
+// 对话记录的读写（loadStore / loadConv / saveConv）在 shared.js，不跟题目绑定
 
 // ---------- 滚动：只有停在底部附近时才跟随新内容；往上翻了就不打扰 ----------
 let follow = true;
@@ -23,7 +25,7 @@ const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">"
 function md(src) {
   const blocks = [];
   let s = esc(src).replace(/```[^\n]*\n([\s\S]*?)(```|$)/g, (_, code) => {
-    blocks.push(`<pre><code>${code.replace(/\n$/, "")}</code></pre>`);
+    blocks.push(`<pre><button class="cp" title="复制代码">复制</button><code>${code.replace(/\n$/, "")}</code></pre>`);
     return `\u0000${blocks.length - 1}\u0000`;
   });
   s = s.replace(/`([^`\n]+)`/g, "<code>$1</code>").replace(/\*\*([^*\n]+)\*\*/g, "<b>$1</b>");
@@ -77,6 +79,7 @@ function renderEmpty(title) {
   log.innerHTML = "";
   const box = document.createElement("div");
   box.className = "empty";
+  if (!slug) { log.innerHTML = `<div class="notlc">打开一道 leetcode.cn 的题目或者白板，这里就能用了。</div>`; return; }
   box.innerHTML = `<div>直接问，或者点一个：</div><div class="chips"></div>`;
   for (const c of CHIPS) {
     const b = document.createElement("button");
@@ -89,7 +92,7 @@ function renderEmpty(title) {
 
 async function renderConv() {
   let conv = { msgs: [] };
-  try { conv = await loadConv(slug); } catch (_) {}
+  try { conv = await loadConv(); } catch (_) {}
   log.innerHTML = "";
   if (!conv.msgs.length) return renderEmpty($("#title").textContent);
   for (const m of conv.msgs) add(m.role === "user" ? "u" : "a", m.role === "user" ? esc(m.text) : md(m.text));
@@ -105,29 +108,40 @@ async function snapshot() {
   }
 }
 
+// 侧边栏所在的窗口：只看这个窗口的当前标签页。用 lastFocusedWindow 的话，焦点一到别的 Chrome 窗口，输入框就被禁用了
+const myWindow = chrome.windows.getCurrent().then((w) => w.id).catch(() => null);
+
 async function refreshTab() {
-  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  const windowId = await myWindow;
+  const [tab] = await chrome.tabs.query(windowId != null ? { active: true, windowId } : { active: true, lastFocusedWindow: true });
   const m = tab?.url?.match(/^https:\/\/leetcode\.cn\/problems\/([^/?#]+)/);
-  const enabled = !!m;
+  const b = tab?.url?.match(/^http:\/\/127\.0\.0\.1:8765\/board\/([^/?#]+)/); // 白板页
+  if (b) b[1] = decodeURIComponent(b[1]);
+  const enabled = !!(m || b);
   $("#q").disabled = $("#send").disabled = !enabled;
+  $("#q").placeholder = enabled ? "问点什么…" : "打开一道 leetcode.cn 的题目或者白板再问";
+  $("#boardBtn").title = m ? "在新标签页打开这道题的白板（从零手写、直接运行）" : "打开白板首页（题单 + 写过的题）";
+  onLcPage = !!m;
   if (!enabled) {
+    const was = slug;
     tabId = slug = null;
     $("#title").textContent = "Leetphus";
     $("#status").textContent = "";
-    log.innerHTML = `<div class="notlc">打开一道 leetcode.cn 的题目，这里就能用了。</div>`;
+    if (was !== null || !rendered) { rendered = true; if (!ctrl) await renderConv(); }
     return;
   }
-  const changed = tab.id !== tabId || m[1] !== slug;
-  if (changed) closeSessions();
+  const changed = tab.id !== tabId || (m || b)[1] !== slug;
+  const wasOff = slug == null;
   tabId = tab.id;
-  slug = m[1];
+  slug = (m || b)[1];
   chrome.action.setBadgeText({ tabId, text: "" }).catch(() => {});
   const snap = await snapshot();
   $("#title").textContent = snap?.title || tab.title.replace(/\s*-\s*力扣.*$/, "") || slug;
   const st = snap?.status;
   $("#status").textContent = st ? st : snap ? "" : "需刷新页面";
   $("#status").className = "st " + (st ? (st === "Accepted" ? "good" : "bad") : "");
-  if (changed && !ctrl) await renderConv();
+  if ((!rendered || (changed && wasOff)) && !ctrl) { rendered = true; await renderConv(); }
+  if (changed && !$("#plist").hidden) markListCurrent(false);
 }
 
 async function checkServer() {
@@ -161,7 +175,7 @@ async function ask(opts = {}) {
   ctrl = new AbortController();
 
   let conv = newConvObj();
-  try { conv = await loadConv(mySlug); } catch (e) { add("err", "读取对话记录失败：" + esc(e.message)); }
+  try { conv = await loadConv(); } catch (e) { add("err", "读取对话记录失败：" + esc(e.message)); }
   const snap = await snapshot();
   if (!snap) {
     a.remove();
@@ -169,9 +183,9 @@ async function ask(opts = {}) {
     setBusy(false); ctrl = null;
     return;
   }
-  // 追问时不重复发题面，只发代码和运行结果
-  const context = conv.session ? snap.markdown.replace(/## 题目描述[\s\S]*?(?=## 我的代码)/, "") : snap.markdown;
+  const context = contextFor(conv, mySlug, snap.markdown);
   conv.msgs.push({ role: "user", text: shown });
+  Object.assign(conv, { slug: mySlug, title: snap.title });
 
   let text = "";
   const status = Object.assign(document.createElement("div"), { className: "thinking", hidden: true });
@@ -179,7 +193,7 @@ async function ask(opts = {}) {
     const res = await fetch(SERVER + "/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question: q, context, session: conv.session, slug: mySlug, title: snap.title, model: $("#model").value || null, auto: !!opts.auto, effort: opts.auto ? "low" : null }),
+      body: JSON.stringify({ question: q, context, session: conv.session, conv: conv.id, slug: mySlug, title: snap.title, model: $("#model").value || null, auto: !!opts.auto, effort: opts.auto ? "low" : null }),
       signal: ctrl.signal,
     });
     if (!res.ok) throw new Error(`本地服务返回 ${res.status}`);
@@ -217,19 +231,29 @@ async function ask(opts = {}) {
     if (e.name === "AbortError") {
       if (text) text += "\n\n_（已停止）_";
     } else {
-      add("err", (await checkServer()) ? esc(e.message) : "连不上本地服务：先在终端运行 python3 ~/leetcode-claude-bridge/server.py");
+      add("err", (await checkServer()) ? esc(e.message) : "连不上本地服务：先在终端运行 python3 ~/Desktop/git/leetphus/server.py");
     }
   } finally {
     status.remove();
     if (text) { a.innerHTML = md(text); conv.msgs.push({ role: "assistant", text }); }
     else a.remove();
-    try { await saveConv(mySlug, conv); } catch (_) {}
+    try { await saveConv(conv); } catch (_) {}
     ctrl = null;
     setBusy(false);
   }
 }
 
 $("#send").addEventListener("click", () => ask());
+// 代码块右上角的复制按钮
+log.addEventListener("click", async (e) => {
+  const b = e.target.closest(".cp");
+  if (!b) return;
+  try {
+    await navigator.clipboard.writeText(b.nextElementSibling.textContent);
+    b.textContent = "已复制";
+  } catch (_) { b.textContent = "复制失败"; }
+  setTimeout(() => (b.textContent = "复制"), 1500);
+});
 $("#q").addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); ask(); }
 });
@@ -262,7 +286,7 @@ async function loadPrefs() {
       (p.last_reflect ? `上次整理 ${p.last_reflect}` : "还没整理过") +
       ` · 再问 ${Math.max(0, p.every - p.since_reflect)} 个会自动整理；纠正它时会立刻整理`;
   } catch (_) {
-    $("#prefMeta").textContent = "连不上本地服务：先运行 python3 ~/leetcode-claude-bridge/server.py";
+    $("#prefMeta").textContent = "连不上本地服务：先运行 python3 ~/Desktop/git/leetphus/server.py";
   }
 }
 function showPrefs(on) {
@@ -274,6 +298,61 @@ function showPrefs(on) {
   if (on) { delete $("#prefText").dataset.dirty; loadPrefs(); prefPoll = setInterval(loadPrefs, 3000); }
 }
 $("#prefBtn").addEventListener("click", () => showPrefs(true));
+
+// ---------- 题单：CodeTop 前 100，点题名在当前标签页打开 ----------
+function showList(on) {
+  $("#plist").hidden = $("#listBar").hidden = !on;
+  $("#log").hidden = $("#foot").hidden = $("#chatBar").hidden = on;
+  closeSessions();
+  if (on) loadList();
+}
+async function loadList() {
+  let list;
+  try { ({ list } = await (await fetch(SERVER + "/board-problems", { cache: "no-store" })).json()); }
+  catch (_) { $("#plist").innerHTML = `<div class="meta">连不上本地服务：先运行 python3 ~/Desktop/git/leetphus/server.py</div>`; return; }
+  const dc = { "简单": "e", "中等": "m", "困难": "h" };
+  const when = (t) => t ? new Date(t * 1000).toLocaleDateString("zh-CN", { month: "numeric", day: "numeric" }) + " 白板" : "";
+  $("#plist").innerHTML = `<div class="meta">按面试频度排序。点题名在左边打开；「白板」新开标签页从零手写。</div>` +
+    list.map((q) => `<div class="pr" data-slug="${esc(q.slug)}"><span class="no">${q.rank}</span><button class="go" title="${esc(q.id)}. ${esc(q.title)}">${esc(q.id)}. ${esc(q.title)}</button><span class="w">${when(q.mtime)}</span><span class="d ${dc[q.difficulty] || ""}">${q.difficulty}</span><button class="bd" title="用白板打开">白板</button></div>`).join("");
+  markListCurrent(true);
+}
+function markListCurrent(scroll) {
+  let cur = null;
+  for (const r of $("#plist").querySelectorAll(".pr")) {
+    r.classList.toggle("on", r.dataset.slug === slug);
+    if (r.dataset.slug === slug) cur = r;
+  }
+  if (scroll && cur) cur.scrollIntoView({ block: "center" });
+}
+$("#plist").addEventListener("click", async (e) => {
+  const row = e.target.closest(".pr");
+  if (!row) return;
+  const s = row.dataset.slug;
+  if (e.target.closest(".bd")) return chrome.tabs.create({ url: `${SERVER}/board/${encodeURIComponent(s)}` });
+  if (!e.target.closest(".go")) return;
+  // 当前标签页是力扣或白板就原地换题，否则新开一个
+  const windowId = await myWindow;
+  const [tab] = await chrome.tabs.query(windowId != null ? { active: true, windowId } : { active: true, lastFocusedWindow: true });
+  const url = `https://leetcode.cn/problems/${s}/`;
+  if (tab && /^https:\/\/leetcode\.cn\/|^http:\/\/127\.0\.0\.1:8765\/board/.test(tab.url || "")) chrome.tabs.update(tab.id, { url });
+  else chrome.tabs.create({ url });
+});
+$("#listBtn").addEventListener("click", () => showList(true));
+$("#listBack").addEventListener("click", () => showList(false));
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#plist").hidden) showList(false); });
+
+// 力扣题目页 → 新标签页打开这道题的白板；顺手把页面上的题面带过去，白板左边显示
+const openBoardHome = () => chrome.tabs.create({ url: `${SERVER}/board` });
+$("#boardHome").addEventListener("click", openBoardHome);
+$("#boardBtn").addEventListener("click", async () => {
+  if (!onLcPage || !slug || tabId == null) return openBoardHome(); // 不在力扣题目页 → 白板首页
+  const mySlug = slug;
+  try {
+    const q = await chrome.tabs.sendMessage(tabId, { type: "getQuestion" });
+    if (q?.content) await fetch(SERVER + "/board-question", { method: "POST", body: JSON.stringify(q) });
+  } catch (_) {} // 拿不到就算了，服务端还会从 CodeTop / 力扣接口找
+  chrome.tabs.create({ url: `${SERVER}/board/${encodeURIComponent(mySlug)}` });
+});
 $("#prefBack").addEventListener("click", () => showPrefs(false));
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#prefs").hidden) showPrefs(false); });
 $("#prefText").addEventListener("input", () => ($("#prefText").dataset.dirty = "1"));
@@ -308,15 +387,14 @@ function confirmInline() {
 
 // ---------- 会话：新建 / 切换 / 删除 ----------
 $("#new").addEventListener("click", async () => {
-  if (!slug) return;
   if (ctrl) ctrl.abort();
-  const store = await loadStore(slug);
+  const store = await loadStore();
   const cur = store.list.find((c) => c.id === store.active);
   if (cur?.msgs.length) { // 当前已经是空对话就不再多建一个
     const c = newConvObj();
     store.list.push(c);
     store.active = c.id;
-    await saveStore(slug, store);
+    await saveStore(store);
   }
   closeSessions();
   renderEmpty($("#title").textContent);
@@ -330,18 +408,18 @@ function when(ts) {
   return d.toDateString() === now.toDateString() ? hm : `${d.getMonth() + 1}/${d.getDate()} ${hm}`;
 }
 async function renderSessions() {
-  const store = await loadStore(slug);
+  const store = await loadStore();
   const list = [...store.list].sort((a, b) => b.updated - a.updated);
   menu.innerHTML = "";
   for (const c of list) {
     const row = document.createElement("div");
     row.className = "sess" + (c.id === store.active ? " on" : "");
-    row.innerHTML = `<button class="pick"><span class="st">${esc(convTitle(c))}</span><span class="sm">${when(c.updated)} · ${Math.ceil(c.msgs.length / 2)} 轮</span></button><button class="del" title="删除这段对话">×</button>`;
+    row.innerHTML = `<button class="pick"><span class="st">${esc(convTitle(c))}</span><span class="sm">${c.title ? esc(c.title) + " · " : ""}${c.updated ? when(c.updated) + " · " : ""}${Math.ceil(c.msgs.length / 2)} 轮</span></button><button class="del" title="删除这段对话">×</button>`;
     row.querySelector(".pick").onclick = async () => {
       if (ctrl) ctrl.abort();
-      const s = await loadStore(slug);
+      const s = await loadStore();
       s.active = c.id;
-      await saveStore(slug, s);
+      await saveStore(s);
       closeSessions();
       await renderConv();
       scrollDown(true);
@@ -355,9 +433,9 @@ async function renderSessions() {
         return;
       }
       if (ctrl && c.id === store.active) ctrl.abort();
-      const s = await loadStore(slug);
+      const s = await loadStore();
       s.list = s.list.filter((x) => x.id !== c.id);
-      await saveStore(slug, s); // loadStore 会在下次读取时补一个当前会话
+      await saveStore(s); // loadStore 会在下次读取时补一个当前会话
       await renderConv();
       renderSessions();
     };
@@ -365,9 +443,19 @@ async function renderSessions() {
   }
 }
 $("#hist").addEventListener("click", () => {
-  if (!slug) return;
+  closeMore();
   if (menu.hidden) { renderSessions(); menu.hidden = false; } else closeSessions();
 });
+
+// 「⋯」菜单：点按钮开关，点里面的按钮、点外面或按 Esc 都收起（改模型不收，方便看清选了什么）
+const more = $("#moreMenu");
+function closeMore() { more.hidden = true; $("#more").setAttribute("aria-expanded", "false"); }
+$("#more").addEventListener("click", () => {
+  if (more.hidden) { closeSessions(); more.hidden = false; $("#more").setAttribute("aria-expanded", "true"); } else closeMore();
+});
+more.addEventListener("click", (e) => { if (e.target.closest("#moreMenu > button")) closeMore(); });
+document.addEventListener("click", (e) => { if (!more.hidden && !e.target.closest("#moreMenu, #more")) closeMore(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !more.hidden) closeMore(); });
 document.addEventListener("click", (e) => {
   if (!menu.hidden && !menu.contains(e.target) && e.target.closest("#hist") == null) closeSessions();
 });
@@ -388,7 +476,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 // 后台替你做完的检查写进了存储：当前题目的对话有变化时重新渲染
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && slug && changes["convs:" + slug] && !ctrl) {
+  if (area === "local" && changes[STORE_KEY] && !ctrl) {
     renderConv();
     if (!menu.hidden) renderSessions();
   }

@@ -2,9 +2,11 @@
 latest.md
 latest.json
 history/
+board/
 qa.jsonl
 profile.md
 profile_history/
 learn_state.json
 __pycache__/
 .DS_Store
+server.log

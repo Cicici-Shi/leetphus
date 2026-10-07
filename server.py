@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """leetcode.cn 插件的本地服务。
 
-    python3 ~/leetcode-claude-bridge/server.py
+    python3 ~/Desktop/git/leetphus/server.py
 
 1. /snapshot：接收插件发来的快照，写到本地文件，供 Claude Code 读取
     latest.md / latest.json / history/
@@ -10,13 +10,17 @@
 3. 偏好学习：每次问答记到 qa.jsonl；遇到纠正/「记住」类的话，或每累计 N 个问题，
    在后台让 Claude 根据最近问答重写 profile.md。旧版本备份在 profile_history/。
    /profile 可读可写（侧边栏的「偏好」页），/reflect 立即整理一次。
+4. 白板模式：/board/<名字> 是一个空白编辑器，练面试手撕（节点类、测试数据、main 全自己写）。
+   代码存在 board/<名字>.py，/board-run 直接用 python3 运行，侧边栏照样能读到代码和输出。
 """
 import json
 import re
 import shutil
 import subprocess
+import sys
 import threading
 import time
+import urllib.parse
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -24,15 +28,25 @@ from pathlib import Path
 HOST, PORT = "127.0.0.1", 8765
 BASE = Path(__file__).resolve().parent
 HIST = BASE / "history"
+BOARD = BASE / "board"  # 白板模式的代码
 PROFILE = BASE / "profile.md"
 PROFILE_HIST = BASE / "profile_history"
 QA_LOG = BASE / "qa.jsonl"
 STATE = BASE / "learn_state.json"
-for d in (HIST, PROFILE_HIST):
+for d in (HIST, PROFILE_HIST, BOARD):
     d.mkdir(exist_ok=True)
 CLAUDE = shutil.which("claude") or str(Path.home() / ".local/bin/claude")
+AGY = shutil.which("agy") or str(Path.home() / ".local/bin/agy")
 CLAUDE_FLAGS = ["--tools", "", "--strict-mcp-config", "--setting-sources", ""]
 LC_TOOL = f"python3 {BASE}/lc.py"
+
+
+def is_agy_model(model):
+    if not model:
+        return False
+    m = model.lower()
+    return m.startswith("gemini-") or m.startswith("agy") or "gemini" in m
+
 # 侧边栏提问时开放的工具：只允许运行 lc.py（查力扣），以及搜索/读网页
 ASK_FLAGS = [
     "--tools", "Bash,WebSearch,WebFetch",
@@ -67,6 +81,11 @@ SYSTEM_PROMPT_T = """你是用户刷 leetcode.cn 时的算法辅导助手，界�
   - `{lc} history [题目slug]` / `{lc} history-show <文件名>`：本地记录的每次运行/提交快照，含失败用例、输出和报错
   用户问到提交记录、以前的写法、别人的解法、其他题、之前错在哪时，先去查，不要说看不到。引用题解时用自己的话讲思路和关键几行，不要整篇照搬。
 - 也可以用 WebSearch / WebFetch 查语法、标准库文档。
+- 【白板模式】页面状态标题以「白板：」开头时，用户在练面试手撕：空白编辑器，没有判题、没有补全，
+  节点类、建测试数据、`if __name__ == "__main__":` 里的调用和 print 都要自己写，点运行看输出。
+  这时没有 Accepted 这一说，防剧透规则一直适用，直到用户说做出来了。
+  题目名可能就是力扣 slug，需要题面时可以用 `{lc} question <slug>` 查。
+  看输出判断对错时，要用户自己写的测试数据为准；用户问「对不对」时，可以提醒测试没覆盖到的边界情况。
 - 下面的「用户偏好档案」是从用户过去的提问和纠正中总结的，与上面的默认规则冲突时，以档案为准。"""
 
 SYSTEM_PROMPT = SYSTEM_PROMPT_T.replace("{lc}", LC_TOOL)
@@ -104,6 +123,65 @@ REFLECT_PROMPT = """你在维护一份「用户偏好档案」，给一个 leetc
 
 _reflect_lock = threading.Lock()
 
+BOARD_NAME_RE = re.compile(r"^[A-Za-z0-9_-]{1,80}$")
+RUN_TIMEOUT = 10        # 秒；写出死循环时不至于一直卡着
+RUN_OUTPUT_MAX = 20000  # 输出太长只留开头
+
+
+BOARD_Q = BOARD / ".questions"  # 题面缓存
+BOARD_Q.mkdir(exist_ok=True)
+CODETOP = BASE / "codetop-top100.json"
+
+
+def codetop_list():
+    return json.loads(CODETOP.read_text(encoding="utf-8"))["list"] if CODETOP.exists() else []
+
+
+def board_question(slug):
+    """白板左边的题面：插件带过来的缓存 → CodeTop 前 100 → 力扣接口（要先在浏览器开过力扣拿到登录状态）。"""
+    f = board_file(slug)
+    if not f:
+        return None
+    cached = BOARD_Q / f"{f.stem}.json"
+    if cached.exists():
+        return json.loads(cached.read_text(encoding="utf-8"))
+    for q in codetop_list():
+        if q["slug"] == slug:
+            return q
+    try:
+        q = lc_gql("""query($titleSlug:String!){question(titleSlug:$titleSlug){questionFrontendId translatedTitle difficulty translatedContent}}""",
+                   {"titleSlug": slug})["question"]
+    except Exception:  # noqa: BLE001  没登录状态 / 被拦 / 不是力扣题，就不显示题面
+        return None
+    if not q:
+        return None
+    q = {"slug": slug, "id": q["questionFrontendId"], "title": q["translatedTitle"],
+         "difficulty": {"EASY": "简单", "MEDIUM": "中等", "HARD": "困难"}.get(q["difficulty"], q["difficulty"]),
+         "content": q["translatedContent"]}
+    cached.write_text(json.dumps(q, ensure_ascii=False), encoding="utf-8")
+    return q
+
+
+def board_file(name):
+    return BOARD / f"{name}.py" if BOARD_NAME_RE.match(name or "") else None
+
+
+def run_board(f):
+    """运行白板代码。cwd 设在 board/ 下，stdin 关掉（白板题不读输入）。"""
+    t0 = time.time()
+    clip = lambda s: s if len(s) <= RUN_OUTPUT_MAX else s[:RUN_OUTPUT_MAX] + f"\n…（输出共 {len(s)} 字，后面省略）"
+    try:
+        r = subprocess.run([sys.executable, "-X", "utf8", f.name], cwd=BOARD, stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, timeout=RUN_TIMEOUT)
+        out, err, code, timeout = r.stdout, r.stderr, r.returncode, False
+    except subprocess.TimeoutExpired as e:
+        dec = lambda b: b.decode("utf-8", "replace") if isinstance(b, bytes) else (b or "")
+        out, err, code, timeout = dec(e.stdout), dec(e.stderr), None, True
+    err = err.replace(str(f), f.name)  # 报错里只显示文件名
+    ms = int((time.time() - t0) * 1000)
+    log(f"白板运行: {f.stem} {'超时' if timeout else f'退出码 {code}'}，{ms} ms")
+    return {"stdout": clip(out), "stderr": clip(err), "code": code, "timeout": timeout, "ms": ms, "at": time.time() * 1000}
+
 
 def read_profile():
     return PROFILE.read_text(encoding="utf-8") if PROFILE.exists() else ""
@@ -135,6 +213,29 @@ def recent_qa(n=20):
     return [json.loads(l) for l in lines if l.strip()]
 
 
+def conversations_from_log():
+    """把问答日志还原成侧边栏的对话：记了对话 id 的按 id 分，老记录每道题一段。"""
+    convs = {}
+    if not QA_LOG.exists():
+        return []
+    for line in QA_LOG.read_text(encoding="utf-8").splitlines():
+        try:
+            x = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        cid = x.get("conv") or "imp-" + (x.get("slug") or "unknown")
+        ts = int(time.mktime(time.strptime(x["time"], "%Y-%m-%d %H:%M:%S")) * 1000)
+        c = convs.setdefault(cid, {"id": cid, "created": ts, "updated": ts, "session": None, "msgs": [],
+                                   "slug": x.get("slug"), "title": x.get("title") or ("（没记录题目）" if not x.get("slug") else x.get("slug"))})
+        c["msgs"] += [{"role": "user", "text": x["question"]}, {"role": "assistant", "text": x["answer"]}]
+        c["updated"] = ts
+        if x.get("session"):
+            c["session"] = x["session"]
+        if x.get("slug"):
+            c["slug"], c["title"] = x["slug"], x.get("title") or x["slug"]
+    return sorted(convs.values(), key=lambda c: c["updated"])
+
+
 def reflect(reason="auto"):
     """让 Claude 根据最近问答重写偏好档案。在后台线程里跑。"""
     if not _reflect_lock.acquire(blocking=False):
@@ -151,8 +252,11 @@ def reflect(reason="auto"):
             for x in qa
         )
         prompt = REFLECT_PROMPT.format(profile=read_profile() or "（空）", qa=qa_text)
+        cmd_reflect = [CLAUDE, "-p", prompt, "--model", REFLECT_MODEL, "--output-format", "text", *CLAUDE_FLAGS]
+        if not shutil.which("claude") and shutil.which("agy"):
+            cmd_reflect = [AGY, "-p", prompt, "--model", "gemini-3.8-flash-low", "--effort", "low", "--output-format", "text", "--dangerously-skip-permissions"]
         r = subprocess.run(
-            [CLAUDE, "-p", prompt, "--model", REFLECT_MODEL, "--output-format", "text", *CLAUDE_FLAGS],
+            cmd_reflect,
             cwd=BASE, capture_output=True, text=True, timeout=180,
         )
         m = re.search(r"<profile>([\s\S]*?)</profile>", r.stdout)
@@ -189,6 +293,27 @@ def tool_status(c):
     return "正在查资料…"
 
 
+def agy_tool_status(tname, tinfo):
+    """把 agy 的工具调用翻译成一句给用户看的状态。"""
+    params = tinfo.get("parameters", {}) if isinstance(tinfo, dict) else {}
+    if tname == "run_command":
+        cmd = params.get("CommandLine", "")
+        for k, v in (("history", "正在翻本地记录…"), ("submission", "正在看你的提交记录…"),
+                     ("solution", "正在看社区题解…"), ("question", "正在查题目…")):
+            if f"lc.py {k}" in cmd or f"lc {k}" in cmd:
+                return v
+        return "正在运行命令…"
+    if tname in ("search_web", "web_search"):
+        q = params.get("query", "")
+        return f"正在搜索：{q}" if q else "正在搜索…"
+    if tname in ("read_url_content", "open_browser_url"):
+        return "正在读网页…"
+    if tname in ("view_file", "read_resource"):
+        return "正在查看文件…"
+    return "正在查资料…"
+
+
+
 # ---------- 力扣查询（lc.py 的后端） ----------
 def lc_gql(query, variables):
     if not COOKIES.get("session"):
@@ -202,7 +327,7 @@ def lc_gql(query, variables):
             "x-csrftoken": COOKIES.get("csrf", ""),
             "Referer": "https://leetcode.cn/",
             "Origin": "https://leetcode.cn",
-            "User-Agent": "Mozilla/5.0 (Macintosh) leetcode-claude-bridge",
+            "User-Agent": "Mozilla/5.0 (Macintosh) leetphus",
         },
     )
     with urllib.request.urlopen(req, timeout=30) as r:
@@ -289,9 +414,26 @@ class Handler(BaseHTTPRequestHandler):
         return json.loads(self.rfile.read(n) or b"{}")
 
     def do_GET(self):
+        if self.path == "/board" or self.path.startswith("/board/"):
+            return self._reply(200, (BASE / "board.html").read_bytes(), "text/html; charset=utf-8")
+        if self.path == "/board-list":
+            files = sorted(BOARD.glob("*.py"), key=lambda f: f.stat().st_mtime, reverse=True)
+            return self._json({"list": [{"name": f.stem, "mtime": f.stat().st_mtime} for f in files]})
+        if self.path == "/board-problems":
+            done = {f.stem: f.stat().st_mtime for f in BOARD.glob("*.py")}
+            return self._json({"list": [{k: q[k] for k in ("rank", "slug", "id", "title", "difficulty")} | {"mtime": done.get(q["slug"])}
+                                        for q in codetop_list()]})
+        if self.path.startswith("/board-question/"):
+            q = board_question(urllib.parse.unquote(self.path[len("/board-question/"):]))
+            return self._json(q) if q else self._reply(404)
+        if self.path.startswith("/board-code/"):
+            f = board_file(self.path[len("/board-code/"):])
+            return self._reply(200, f.read_bytes() if f and f.exists() else b"")
         if self.path in ("/", "/latest"):
             f = BASE / "latest.md"
             self._reply(200, f.read_bytes() if f.exists() else "还没有数据".encode(), "text/markdown; charset=utf-8")
+        elif self.path == "/conversations":
+            self._json({"list": conversations_from_log()})
         elif self.path == "/profile":
             st = load_state()
             self._json({
@@ -312,6 +454,18 @@ class Handler(BaseHTTPRequestHandler):
             return self._reply(400, str(e).encode())
         if self.path == "/snapshot":
             return self.snapshot(body)
+        if self.path == "/board-question":  # 插件从力扣页面带过来的题面
+            f = board_file(body.get("slug", ""))
+            if not f or not body.get("content"):
+                return self._reply(400)
+            (BOARD_Q / f"{f.stem}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
+            return self._json({"ok": True})
+        if self.path in ("/board-save", "/board-run"):
+            f = board_file(body.get("name", ""))
+            if not f:
+                return self._reply(400, "名字只能用字母、数字、-、_".encode())
+            f.write_text(body.get("code", ""), encoding="utf-8")
+            return self._json(run_board(f) if self.path == "/board-run" else {"ok": True})
         if self.path == "/ask":
             return self.ask(body)
         if self.path == "/profile":
@@ -354,17 +508,45 @@ class Handler(BaseHTTPRequestHandler):
         profile = read_profile().strip()
         system = SYSTEM_PROMPT + ("\n\n# 用户偏好档案\n" + profile if profile else "")
 
-        cmd = [
-            CLAUDE, "-p", prompt,
-            "--output-format", "stream-json", "--verbose", "--include-partial-messages",
-            *ASK_FLAGS, "--append-system-prompt", system,
-        ]
-        if body.get("model"):
-            cmd += ["--model", body["model"]]
-        if body.get("effort") in ("low", "medium", "high"):
-            cmd += ["--effort", body["effort"]]
+        model = body.get("model") or ""
+        is_agy = is_agy_model(model)
+
+        claude_session = None
+        agy_session = None
         if session:
-            cmd += ["--resume", session]
+            if session.startswith("agy:"):
+                agy_session = session[4:]
+            elif session.startswith("claude:"):
+                claude_session = session[7:]
+            else:
+                claude_session = session
+
+        if is_agy:
+            # 使用 low 模型并关掉思考模式（thinking_tokens: 0）
+            agy_model = "gemini-3.8-flash-low" if ("3.8" in model or not model) else model
+            agy_prompt = f"【系统提示与要求】\n{system}\n\n【用户问题】\n{prompt}"
+            cmd = [
+                AGY, "-p", agy_prompt,
+                "--output-format", "stream-json",
+                "--dangerously-skip-permissions",
+                "--disable-slash-commands",
+                "--model", agy_model,
+                "--effort", "low",
+            ]
+            if agy_session:
+                cmd += ["--conversation", agy_session]
+        else:
+            cmd = [
+                CLAUDE, "-p", prompt,
+                "--output-format", "stream-json", "--verbose", "--include-partial-messages",
+                *ASK_FLAGS, "--append-system-prompt", system,
+            ]
+            if model:
+                cmd += ["--model", model]
+            if body.get("effort") in ("low", "medium", "high"):
+                cmd += ["--effort", body["effort"]]
+            if claude_session:
+                cmd += ["--resume", claude_session]
 
         self.send_response(200)
         self.send_header("Content-Type", "application/x-ndjson; charset=utf-8")
@@ -375,10 +557,12 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write((json.dumps(obj, ensure_ascii=False) + "\n").encode())
             self.wfile.flush()
 
-        log(f"ask{'（自动检查）' if body.get('auto') else ''}: {question[:30]}")
+        backend_name = "agy" if is_agy else "claude"
+        log(f"ask{'（自动检查）' if body.get('auto') else ''} [{backend_name}/{model or 'default'}]: {question[:30]}")
         t0 = time.time()
         proc = subprocess.Popen(cmd, cwd=BASE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         answer = ""
+        sess = agy_session if is_agy else claude_session
         used_tool = False
         try:
             for line in proc.stdout:
@@ -386,48 +570,80 @@ class Handler(BaseHTTPRequestHandler):
                     ev = json.loads(line)
                 except json.JSONDecodeError:
                     continue
-                if ev.get("type") == "system" and ev.get("subtype") == "init":
-                    emit({"session": ev.get("session_id")})
-                elif ev.get("type") == "stream_event":
-                    d = ev.get("event", {}).get("delta", {})
-                    if d.get("type") == "text_delta":
-                        chunk = d.get("text", "")
-                        if used_tool and answer and not answer.endswith("\n\n"):
-                            chunk = "\n\n" + chunk  # 查完资料后接着写，和前面的话分开
-                        used_tool = False
-                        answer += chunk
-                        emit({"t": chunk})
-                elif ev.get("type") == "assistant":
-                    for c in ev.get("message", {}).get("content", []):
-                        if c.get("type") == "tool_use":
+                if is_agy:
+                    event = ev.get("event")
+                    if event == "init":
+                        conv_id = ev.get("conversation_id")
+                        if conv_id:
+                            sess = conv_id
+                            emit({"session": f"agy:{sess}"})
+                    elif event == "step_update":
+                        up = ev.get("step_update", {})
+                        stype = up.get("step_type")
+                        if stype == "agent_response":
+                            delta = up.get("text_delta", "")
+                            if delta:
+                                if used_tool and answer and not answer.endswith("\n\n"):
+                                    delta = "\n\n" + delta
+                                used_tool = False
+                                answer += delta
+                                emit({"t": delta})
+                        elif stype == "tool" and up.get("state") == "ACTIVE":
                             used_tool = True
-                            emit({"status": tool_status(c)})
-                elif ev.get("type") == "result" or "duration_api_ms" in ev:
-                    if ev.get("is_error") and not answer:
-                        emit({"error": str(ev.get("result") or "claude 返回错误")})
+                            tname = up.get("tool_name", "")
+                            tinfo = up.get("tool_info", {})
+                            emit({"status": agy_tool_status(tname, tinfo)})
+                    elif event == "result":
+                        res = ev.get("result", {})
+                        if res.get("status") == "ERROR" and not answer:
+                            emit({"error": str(res.get("error") or res.get("response") or "agy 返回错误")})
+                else:
+                    if ev.get("type") == "system" and ev.get("subtype") == "init":
+                        sess = ev.get("session_id") or sess
+                        emit({"session": f"claude:{sess}" if sess else None})
+                    elif ev.get("type") == "stream_event":
+                        d = ev.get("event", {}).get("delta", {})
+                        if d.get("type") == "text_delta":
+                            chunk = d.get("text", "")
+                            if used_tool and answer and not answer.endswith("\n\n"):
+                                chunk = "\n\n" + chunk  # 查完资料后接着写，和前面的话分开
+                            used_tool = False
+                            answer += chunk
+                            emit({"t": chunk})
+                    elif ev.get("type") == "assistant":
+                        for c in ev.get("message", {}).get("content", []):
+                            if c.get("type") == "tool_use":
+                                used_tool = True
+                                emit({"status": tool_status(c)})
+                    elif ev.get("type") == "result" or "duration_api_ms" in ev:
+                        if ev.get("is_error") and not answer:
+                            emit({"error": str(ev.get("result") or "claude 返回错误")})
             proc.wait()
             if proc.returncode and not answer:
                 err = proc.stderr.read().strip()[-800:]
-                emit({"error": err or f"claude 退出码 {proc.returncode}"})
+                emit({"error": err or f"{backend_name} 退出码 {proc.returncode}"})
             # 自动检查不是用户自己问的，不记入偏好学习
             log(f"回答完成，用时 {time.time() - t0:.0f} 秒，{len(answer)} 字")
-            learning = self.record(body, question, answer) if answer and not body.get("auto") else None
+            learning_sess = f"agy:{sess}" if is_agy and sess else (f"claude:{sess}" if sess else None)
+            learning = self.record(body, question, answer, learning_sess) if answer and not body.get("auto") else None
             emit({"done": True, "learning": learning})
         except (BrokenPipeError, ConnectionResetError):
             # 用户点了「停止」或关了侧边栏；已经生成的部分仍然记下来
             if answer and not body.get("auto"):
-                self.record(body, question, answer)
+                learning_sess = f"agy:{sess}" if is_agy and sess else (f"claude:{sess}" if sess else None)
+                self.record(body, question, answer, learning_sess)
         finally:
             if proc.poll() is None:
                 proc.kill()
 
-    def record(self, body, question, answer):
+    def record(self, body, question, answer, sess=None):
         """记日志；需要时在后台整理偏好。返回触发原因（没触发则 None）。"""
         with QA_LOG.open("a", encoding="utf-8") as f:
             f.write(json.dumps({
                 "time": time.strftime("%Y-%m-%d %H:%M:%S"),
                 "slug": body.get("slug"), "title": body.get("title"),
                 "question": question, "answer": answer,
+                "conv": body.get("conv"), "session": sess,  # 用来在换了插件位置后恢复侧边栏对话
             }, ensure_ascii=False) + "\n")
         st = load_state()
         st["since_reflect"] = st.get("since_reflect", 0) + 1
@@ -450,5 +666,5 @@ if __name__ == "__main__":
     if st.get("reflecting"):  # 上次整理到一半被中断
         st["reflecting"] = False
         save_state(st)
-    log(f"LeetCode bridge 监听 http://{HOST}:{PORT} ，目录 {BASE} ，claude: {CLAUDE}")
+    log(f"LeetCode bridge 监听 http://{HOST}:{PORT} ，目录 {BASE} ，claude: {CLAUDE} ，agy: {AGY}")
     ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()

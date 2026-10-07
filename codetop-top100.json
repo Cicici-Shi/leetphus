@@ -1,0 +1,905 @@
+{
+ "source": "https://codetop.cc 综合频度榜前 100，2026-10-07 拉取",
+ "list": [
+  {
+   "rank": 1,
+   "freq": 1211,
+   "slug": "longest-substring-without-repeating-characters",
+   "id": "3",
+   "title": "无重复字符的最长子串",
+   "difficulty": "中等",
+   "content": "<p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长子串 </strong>的长度。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre>\n<strong>输入: </strong>s = \"abcabcbb\"\n<strong>输出: </strong>3 \n<strong>解释:</strong> 因为无重复字符的最长子串是 <code>\"abc\"，所以其</code>长度为 3。\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入: </strong>s = \"bbbbb\"\n<strong>输出: </strong>1\n<strong>解释: </strong>因为无重复字符的最长子串是 <code>\"b\"</code>，所以其长度为 1。\n</pre>\n\n<p><strong>示例 3:</strong></p>\n\n<pre>\n<strong>输入: </strong>s = \"pwwkew\"\n<strong>输出: </strong>3\n<strong>解释: </strong>因为无重复字符的最长子串是 <code>\"wke\"</code>，所以其长度为 3。\n     请注意，你的答案必须是 <strong>子串 </strong>的长度，<code>\"pwke\"</code> 是一个<em>子序列，</em>不是子串。\n</pre>\n\n<p><strong>示例 4:</strong></p>\n\n<pre>\n<strong>输入: </strong>s = \"\"\n<strong>输出: </strong>0\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= s.length <= 5 * 10<sup>4</sup></code></li>\n\t<li><code>s</code> 由英文字母、数字、符号和空格组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 2,
+   "freq": 962,
+   "slug": "lru-cache",
+   "id": "146",
+   "title": "LRU缓存机制",
+   "difficulty": "中等",
+   "content": "<div class=\"title__3Vvk\">运用你所掌握的数据结构，设计和实现一个  <a href=\"https://baike.baidu.com/item/LRU\" target=\"_blank\">LRU (最近最少使用) 缓存机制</a> 。</div>\n\n<div class=\"original__bRMd\">\n<div>\n<p>实现 <code>LRUCache</code> 类：</p>\n\n<ul>\n\t<li><code>LRUCache(int capacity)</code> 以正整数作为容量 <code>capacity</code> 初始化 LRU 缓存</li>\n\t<li><code>int get(int key)</code> 如果关键字 <code>key</code> 存在于缓存中，则返回关键字的值，否则返回 <code>-1</code> 。</li>\n\t<li><code>void put(int key, int value)</code> 如果关键字已经存在，则变更其数据值；如果关键字不存在，则插入该组「关键字-值」。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。</li>\n</ul>\n\n<p> </p>\n</div>\n</div>\n\n<p><strong>进阶</strong>：你是否可以在 <code>O(1)</code> 时间复杂度内完成这两种操作？</p>\n\n<p> </p>\n\n<p><strong>示例：</strong></p>\n\n<pre>\n<strong>输入</strong>\n[\"LRUCache\", \"put\", \"put\", \"get\", \"put\", \"get\", \"put\", \"get\", \"get\", \"get\"]\n[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]\n<strong>输出</strong>\n[null, null, null, 1, null, -1, null, -1, 3, 4]\n\n<strong>解释</strong>\nLRUCache lRUCache = new LRUCache(2);\nlRUCache.put(1, 1); // 缓存是 {1=1}\nlRUCache.put(2, 2); // 缓存是 {1=1, 2=2}\nlRUCache.get(1);    // 返回 1\nlRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}\nlRUCache.get(2);    // 返回 -1 (未找到)\nlRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}\nlRUCache.get(1);    // 返回 -1 (未找到)\nlRUCache.get(3);    // 返回 3\nlRUCache.get(4);    // 返回 4\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= capacity <= 3000</code></li>\n\t<li><code>0 <= key <= 10000</code></li>\n\t<li><code>0 <= value <= 10<sup>5</sup></code></li>\n\t<li>最多调用 <code>2 * 10<sup>5</sup></code> 次 <code>get</code> 和 <code>put</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 3,
+   "freq": 758,
+   "slug": "reverse-linked-list",
+   "id": "206",
+   "title": "反转链表",
+   "difficulty": "简单",
+   "content": "给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。\n<div class=\"original__bRMd\">\n<div>\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5]\n<strong>输出：</strong>[5,4,3,2,1]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg\" style=\"width: 182px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2]\n<strong>输出：</strong>[2,1]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = []\n<strong>输出：</strong>[]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点的数目范围是 <code>[0, 5000]</code></li>\n\t<li><code>-5000 <= Node.val <= 5000</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>链表可以选用迭代或递归方式完成反转。你能否用两种方法解决这道题？</p>\n</div>\n</div>\n"
+  },
+  {
+   "rank": 4,
+   "freq": 606,
+   "slug": "kth-largest-element-in-an-array",
+   "id": "215",
+   "title": "数组中的第K个最大元素",
+   "difficulty": "中等",
+   "content": "<p>给定整数数组 <code>nums</code> 和整数 <code>k</code>，请返回数组中第 <code><strong>k</strong></code> 个最大的元素。</p>\n\n<p>请注意，你需要找的是数组排序后的第 <code>k</code> 个最大的元素，而不是第 <code>k</code> 个不同的元素。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre>\n<strong>输入:</strong> <code>[3,2,1,5,6,4] 和</code> k = 2\n<strong>输出:</strong> 5\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入:</strong> <code>[3,2,3,1,2,4,5,5,6] 和</code> k = 4\n<strong>输出:</strong> 4</pre>\n\n<p> </p>\n\n<p><strong>提示： </strong></p>\n\n<ul>\n\t<li><code>1 <= k <= nums.length <= 10<sup>4</sup></code></li>\n\t<li><code>-10<sup>4</sup> <= nums[i] <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 5,
+   "freq": 537,
+   "slug": "reverse-nodes-in-k-group",
+   "id": "25",
+   "title": "K 个一组翻转链表",
+   "difficulty": "困难",
+   "content": "<p>给你一个链表，每 <em>k </em>个节点一组进行翻转，请你返回翻转后的链表。</p>\n\n<p><em>k </em>是一个正整数，它的值小于或等于链表的长度。</p>\n\n<p>如果节点总数不是 <em>k </em>的整数倍，那么请将最后剩余的节点保持原有顺序。</p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>你可以设计一个只使用常数额外空间的算法来解决此问题吗？</li>\n\t<li><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际进行节点交换。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/03/reverse_ex1.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5], k = 2\n<strong>输出：</strong>[2,1,4,3,5]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/03/reverse_ex2.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5], k = 3\n<strong>输出：</strong>[3,2,1,4,5]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5], k = 1\n<strong>输出：</strong>[1,2,3,4,5]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [1], k = 1\n<strong>输出：</strong>[1]\n</pre>\n\n<ul>\n</ul>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>列表中节点的数量在范围 <code>sz</code> 内</li>\n\t<li><code>1 <= sz <= 5000</code></li>\n\t<li><code>0 <= Node.val <= 1000</code></li>\n\t<li><code>1 <= k <= sz</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 6,
+   "freq": 495,
+   "slug": "3sum",
+   "id": "15",
+   "title": "三数之和",
+   "difficulty": "中等",
+   "content": "<p>给你一个包含 <code>n</code> 个整数的数组 <code>nums</code>，判断 <code>nums</code> 中是否存在三个元素 <em>a，b，c ，</em>使得 <em>a + b + c = </em>0 ？请你找出所有和为 <code>0</code> 且不重复的三元组。</p>\n\n<p><strong>注意：</strong>答案中不可以包含重复的三元组。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [-1,0,1,2,-1,-4]\n<strong>输出：</strong>[[-1,-1,2],[-1,0,1]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [0]\n<strong>输出：</strong>[]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= nums.length <= 3000</code></li>\n\t<li><code>-10<sup>5</sup> <= nums[i] <= 10<sup>5</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 7,
+   "freq": 378,
+   "slug": "maximum-subarray",
+   "id": "53",
+   "title": "最大子数组和",
+   "difficulty": "中等",
+   "content": "<p>给定一个整数数组 <code>nums</code> ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p><p> </p><p><strong>示例 1：</strong></p><pre><strong>输入：</strong>nums = [-2,1,-3,4,-1,2,1,-5,4]<strong>输出：</strong>6<strong>解释：</strong>连续子数组 [4,-1,2,1] 的和最大，为 6 。</pre><p><strong>示例 2：</strong></p><pre><strong>输入：</strong>nums = [1]<strong>输出：</strong>1</pre><p><strong>示例 3：</strong></p><pre><strong>输入：</strong>nums = [0]<strong>输出：</strong>0</pre><p><strong>示例 4：</strong></p><pre><strong>输入：</strong>nums = [-1]<strong>输出：</strong>-1</pre><p><strong>示例 5：</strong></p><pre><strong>输入：</strong>nums = [-100000]<strong>输出：</strong>-100000</pre><p> </p><p><strong>提示：</strong></p><ul>\t<li><code>1 <= nums.length <= 3 * 10<sup>4</sup></code></li>\t<li><code>-10<sup>5</sup> <= nums[i] <= 10<sup>5</sup></code></li></ul><p> </p><p><strong>进阶：</strong>如果你已经实现复杂度为 <code>O(n)</code> 的解法，尝试使用更为精妙的 <strong>分治法</strong> 求解。</p>"
+  },
+  {
+   "rank": 8,
+   "freq": 362,
+   "slug": "longest-palindromic-substring",
+   "id": "5",
+   "title": "最长回文子串",
+   "difficulty": "中等",
+   "content": "<p>给你一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"babad\"\n<strong>输出：</strong>\"bab\"\n<strong>解释：</strong>\"aba\" 同样是符合题意的答案。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"cbbd\"\n<strong>输出：</strong>\"bb\"\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"a\"\n<strong>输出：</strong>\"a\"\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"ac\"\n<strong>输出：</strong>\"a\"\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= s.length <= 1000</code></li>\n\t<li><code>s</code> 仅由数字和英文字母（大写和/或小写）组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 9,
+   "freq": 360,
+   "slug": "sort-an-array",
+   "id": "补充题4",
+   "title": "手撕快速排序",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组&nbsp;<code>nums</code>，请你将该数组升序排列。</p><p>&nbsp;</p><ol></ol><p><strong>示例 1：</strong></p><pre><strong>输入：</strong>nums = [5,2,3,1]<strong>输出：</strong>[1,2,3,5]</pre><p><strong>示例 2：</strong></p><pre><strong>输入：</strong>nums = [5,1,1,2,0,0]<strong>输出：</strong>[0,0,1,1,2,5]</pre><p>&nbsp;</p><p><strong>提示：</strong></p><ol>\t<li><code>1 &lt;= nums.length &lt;= 50000</code></li>\t<li><code>-50000 &lt;= nums[i] &lt;= 50000</code></li></ol>"
+  },
+  {
+   "rank": 10,
+   "freq": 334,
+   "slug": "merge-two-sorted-lists",
+   "id": "21",
+   "title": "合并两个有序链表",
+   "difficulty": "简单",
+   "content": "<p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg\" style=\"width: 662px; height: 302px;\" />\n<pre>\n<strong>输入：</strong>l1 = [1,2,4], l2 = [1,3,4]\n<strong>输出：</strong>[1,1,2,3,4,4]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>l1 = [], l2 = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>l1 = [], l2 = [0]\n<strong>输出：</strong>[0]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>两个链表的节点数目范围是 <code>[0, 50]</code></li>\n\t<li><code>-100 <= Node.val <= 100</code></li>\n\t<li><code>l1</code> 和 <code>l2</code> 均按 <strong>非递减顺序</strong> 排列</li>\n</ul>\n"
+  },
+  {
+   "rank": 11,
+   "freq": 333,
+   "slug": "binary-tree-level-order-traversal",
+   "id": "102",
+   "title": "二叉树的层序遍历",
+   "difficulty": "中等",
+   "content": "<p>给你一个二叉树，请你返回其按 <strong>层序遍历</strong> 得到的节点值。 （即逐层地，从左到右访问所有节点）。</p>\n\n<p> </p>\n\n<p><strong>示例：</strong><br />\n二叉树：<code>[3,9,20,null,null,15,7]</code>,</p>\n\n<pre>\n    3\n   / \\\n  9  20\n    /  \\\n   15   7\n</pre>\n\n<p>返回其层序遍历结果：</p>\n\n<pre>\n[\n  [3],\n  [9,20],\n  [15,7]\n]\n</pre>\n"
+  },
+  {
+   "rank": 12,
+   "freq": 332,
+   "slug": "number-of-islands",
+   "id": "200",
+   "title": "岛屿数量",
+   "difficulty": "中等",
+   "content": "<p>给你一个由 <code>'1'</code>（陆地）和 <code>'0'</code>（水）组成的的二维网格，请你计算网格中岛屿的数量。</p>\n\n<p>岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。</p>\n\n<p>此外，你可以假设该网格的四条边均被水包围。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>grid = [\n  [\"1\",\"1\",\"1\",\"1\",\"0\"],\n  [\"1\",\"1\",\"0\",\"1\",\"0\"],\n  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n  [\"0\",\"0\",\"0\",\"0\",\"0\"]\n]\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>grid = [\n  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n  [\"0\",\"0\",\"1\",\"0\",\"0\"],\n  [\"0\",\"0\",\"0\",\"1\",\"1\"]\n]\n<strong>输出：</strong>3\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == grid.length</code></li>\n\t<li><code>n == grid[i].length</code></li>\n\t<li><code>1 <= m, n <= 300</code></li>\n\t<li><code>grid[i][j]</code> 的值为 <code>'0'</code> 或 <code>'1'</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 13,
+   "freq": 320,
+   "slug": "search-in-rotated-sorted-array",
+   "id": "33",
+   "title": "搜索旋转排序数组",
+   "difficulty": "中等",
+   "content": "<p>整数数组 <code>nums</code> 按升序排列，数组中的值 <strong>互不相同</strong> 。</p>\n\n<p>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k</code>（<code>0 <= k < nums.length</code>）上进行了 <strong>旋转</strong>，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 <strong>从 0 开始</strong> 计数）。例如， <code>[0,1,2,4,5,6,7]</code> 在下标 <code>3</code> 处经旋转后可能变为 <code>[4,5,6,7,0,1,2]</code> 。</p>\n\n<p>给你 <strong>旋转后</strong> 的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的下标，否则返回 <code>-1</code> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [<code>4,5,6,7,0,1,2]</code>, target = 0\n<strong>输出：</strong>4\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [<code>4,5,6,7,0,1,2]</code>, target = 3\n<strong>输出：</strong>-1</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1], target = 0\n<strong>输出：</strong>-1\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 5000</code></li>\n\t<li><code>-10^4 <= nums[i] <= 10^4</code></li>\n\t<li><code>nums</code> 中的每个值都 <strong>独一无二</strong></li>\n\t<li>题目数据保证 <code>nums</code> 在预先未知的某个下标上进行了旋转</li>\n\t<li><code>-10^4 <= target <= 10^4</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>你可以设计一个时间复杂度为 <code>O(log n)</code> 的解决方案吗？</p>\n"
+  },
+  {
+   "rank": 14,
+   "freq": 306,
+   "slug": "two-sum",
+   "id": "1",
+   "title": "两数之和",
+   "difficulty": "简单",
+   "content": "<p>给定一个整数数组 <code>nums</code> 和一个整数目标值 <code>target</code>，请你在该数组中找出 <strong>和为目标值 </strong><em><code>target</code></em>  的那 <strong>两个</strong> 整数，并返回它们的数组下标。</p>\n\n<p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>\n\n<p>你可以按任意顺序返回答案。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [2,7,11,15], target = 9\n<strong>输出：</strong>[0,1]\n<strong>解释：</strong>因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [3,2,4], target = 6\n<strong>输出：</strong>[1,2]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [3,3], target = 6\n<strong>输出：</strong>[0,1]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>2 <= nums.length <= 10<sup>4</sup></code></li>\n\t<li><code>-10<sup>9</sup> <= nums[i] <= 10<sup>9</sup></code></li>\n\t<li><code>-10<sup>9</sup> <= target <= 10<sup>9</sup></code></li>\n\t<li><strong>只会存在一个有效答案</strong></li>\n</ul>\n\n<p><strong>进阶：</strong>你可以想出一个时间复杂度小于 <code>O(n<sup>2</sup>)</code> 的算法吗？</p>\n"
+  },
+  {
+   "rank": 15,
+   "freq": 303,
+   "slug": "merge-sorted-array",
+   "id": "88",
+   "title": "合并两个有序数组",
+   "difficulty": "简单",
+   "content": "<p>给你两个按 <strong>非递减顺序</strong> 排列的整数数组&nbsp;<code>nums1</code><em> </em>和 <code>nums2</code>，另有两个整数 <code>m</code> 和 <code>n</code> ，分别表示 <code>nums1</code> 和 <code>nums2</code> 中的元素数目。</p>\n\n<p>请你 <strong>合并</strong> <code>nums2</code><em> </em>到 <code>nums1</code> 中，使合并后的数组同样按 <strong>非递减顺序</strong> 排列。</p>\n\n<p><strong>注意：</strong>最终，合并后数组不应由函数返回，而是存储在数组 <code>nums1</code> 中。为了应对这种情况，<code>nums1</code> 的初始长度为 <code>m + n</code>，其中前 <code>m</code> 个元素表示应合并的元素，后 <code>n</code> 个元素为 <code>0</code> ，应忽略。<code>nums2</code> 的长度为 <code>n</code> 。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3\n<strong>输出：</strong>[1,2,2,3,5,6]\n<strong>解释：</strong>需要合并 [1,2,3] 和 [2,5,6] 。\n合并结果是 [<em><strong>1</strong></em>,<em><strong>2</strong></em>,2,<em><strong>3</strong></em>,5,6] ，其中斜体加粗标注的为 nums1 中的元素。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [1], m = 1, nums2 = [], n = 0\n<strong>输出：</strong>[1]\n<strong>解释：</strong>需要合并 [1] 和 [] 。\n合并结果是 [1] 。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [0], m = 0, nums2 = [1], n = 1\n<strong>输出：</strong>[1]\n<strong>解释：</strong>需要合并的数组是 [] 和 [1] 。\n合并结果是 [1] 。\n注意，因为 m = 0 ，所以 nums1 中没有元素。nums1 中仅存的 0 仅仅是为了确保合并结果可以顺利存放到 nums1 中。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>nums1.length == m + n</code></li>\n\t<li><code>nums2.length == n</code></li>\n\t<li><code>0 &lt;= m, n &lt;= 200</code></li>\n\t<li><code>1 &lt;= m + n &lt;= 200</code></li>\n\t<li><code>-10<sup>9</sup> &lt;= nums1[i], nums2[j] &lt;= 10<sup>9</sup></code></li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p><strong>进阶：</strong>你可以设计实现一个时间复杂度为 <code>O(m + n)</code> 的算法解决此问题吗？</p>\n"
+  },
+  {
+   "rank": 16,
+   "freq": 302,
+   "slug": "permutations",
+   "id": "46",
+   "title": "全排列",
+   "difficulty": "中等",
+   "content": "<p>给定一个不含重复数字的数组 <code>nums</code> ，返回其 <strong>所有可能的全排列</strong> 。你可以 <strong>按任意顺序</strong> 返回答案。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,2,3]\n<strong>输出：</strong>[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [0,1]\n<strong>输出：</strong>[[0,1],[1,0]]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1]\n<strong>输出：</strong>[[1]]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 6</code></li>\n\t<li><code>-10 <= nums[i] <= 10</code></li>\n\t<li><code>nums</code> 中的所有整数 <strong>互不相同</strong></li>\n</ul>\n"
+  },
+  {
+   "rank": 17,
+   "freq": 300,
+   "slug": "valid-parentheses",
+   "id": "20",
+   "title": "有效的括号",
+   "difficulty": "简单",
+   "content": "<p>给定一个只包括 <code>'('</code>，<code>')'</code>，<code>'{'</code>，<code>'}'</code>，<code>'['</code>，<code>']'</code> 的字符串 <code>s</code> ，判断字符串是否有效。</p>\n\n<p>有效字符串需满足：</p>\n\n<ol>\n\t<li>左括号必须用相同类型的右括号闭合。</li>\n\t<li>左括号必须以正确的顺序闭合。</li>\n</ol>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"()\"\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"()[]{}\"\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"(]\"\n<strong>输出：</strong>false\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"([)]\"\n<strong>输出：</strong>false\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"{[]}\"\n<strong>输出：</strong>true</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= s.length <= 10<sup>4</sup></code></li>\n\t<li><code>s</code> 仅由括号 <code>'()[]{}'</code> 组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 18,
+   "freq": 281,
+   "slug": "best-time-to-buy-and-sell-stock",
+   "id": "121",
+   "title": "买卖股票的最佳时机",
+   "difficulty": "简单",
+   "content": "<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>\n\n<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>\n\n<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>[7,1,5,3,6,4]\n<strong>输出：</strong>5\n<strong>解释：</strong>在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。\n     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>prices = [7,6,4,3,1]\n<strong>输出：</strong>0\n<strong>解释：</strong>在这种情况下, 没有交易完成, 所以最大利润为 0。\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= prices.length <= 10<sup>5</sup></code></li>\n\t<li><code>0 <= prices[i] <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 19,
+   "freq": 275,
+   "slug": "longest-increasing-subsequence",
+   "id": "300",
+   "title": "最长上升子序列",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组 <code>nums</code> ，找到其中最长严格递增子序列的长度。</p>\n\n<p>子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的子序列。</p>\n \n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [10,9,2,5,3,7,101,18]\n<strong>输出：</strong>4\n<strong>解释：</strong>最长递增子序列是 [2,3,7,101]，因此长度为 4 。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [0,1,0,3,2,3]\n<strong>输出：</strong>4\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [7,7,7,7,7,7,7]\n<strong>输出：</strong>1\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 2500</code></li>\n\t<li><code>-10<sup>4</sup> <= nums[i] <= 10<sup>4</sup></code></li>\n</ul>\n\n<p> </p>\n\n<p><b>进阶：</b></p>\n\n<ul>\n\t<li>你可以设计时间复杂度为 <code>O(n<sup>2</sup>)</code> 的解决方案吗？</li>\n\t<li>你能将算法的时间复杂度降低到 <code>O(n log(n))</code> 吗?</li>\n</ul>\n"
+  },
+  {
+   "rank": 20,
+   "freq": 272,
+   "slug": "binary-tree-zigzag-level-order-traversal",
+   "id": "103",
+   "title": "二叉树的锯齿形层次遍历",
+   "difficulty": "中等",
+   "content": "<p>给定一个二叉树，返回其节点值的锯齿形层序遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。</p>\n\n<p>例如：<br />\n给定二叉树 <code>[3,9,20,null,null,15,7]</code>,</p>\n\n<pre>\n    3\n   / \\\n  9  20\n    /  \\\n   15   7\n</pre>\n\n<p>返回锯齿形层序遍历如下：</p>\n\n<pre>\n[\n  [3],\n  [20,9],\n  [15,7]\n]\n</pre>\n"
+  },
+  {
+   "rank": 21,
+   "freq": 271,
+   "slug": "reverse-linked-list-ii",
+   "id": "92",
+   "title": "反转链表 II",
+   "difficulty": "中等",
+   "content": "给你单链表的头指针 <code>head</code> 和两个整数 <code>left</code> 和 <code>right</code> ，其中 <code>left <= right</code> 。请你反转从位置 <code>left</code> 到位置 <code>right</code> 的链表节点，返回 <strong>反转后的链表</strong> 。\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/rev2ex2.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5], left = 2, right = 4\n<strong>输出：</strong>[1,4,3,2,5]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [5], left = 1, right = 1\n<strong>输出：</strong>[5]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点数目为 <code>n</code></li>\n\t<li><code>1 <= n <= 500</code></li>\n\t<li><code>-500 <= Node.val <= 500</code></li>\n\t<li><code>1 <= left <= right <= n</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong> 你可以使用一趟扫描完成反转吗？</p>\n"
+  },
+  {
+   "rank": 22,
+   "freq": 270,
+   "slug": "lowest-common-ancestor-of-a-binary-tree",
+   "id": "236",
+   "title": "二叉树的最近公共祖先",
+   "difficulty": "中等",
+   "content": "<p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。</p>\n\n<p><a href=\"https://baike.baidu.com/item/%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/8918834?fr=aladdin\" target=\"_blank\">百度百科</a>中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（<strong>一个节点也可以是它自己的祖先</strong>）。”</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2018/12/14/binarytree.png\" style=\"width: 200px; height: 190px;\" />\n<pre>\n<strong>输入：</strong>root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1\n<strong>输出：</strong>3\n<strong>解释：</strong>节点 <code>5 </code>和节点 <code>1 </code>的最近公共祖先是节点 <code>3 。</code>\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2018/12/14/binarytree.png\" style=\"width: 200px; height: 190px;\" />\n<pre>\n<strong>输入：</strong>root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4\n<strong>输出：</strong>5\n<strong>解释：</strong>节点 <code>5 </code>和节点 <code>4 </code>的最近公共祖先是节点 <code>5 。</code>因为根据定义最近公共祖先节点可以为节点本身。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = [1,2], p = 1, q = 2\n<strong>输出：</strong>1\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点数目在范围 <code>[2, 10<sup>5</sup>]</code> 内。</li>\n\t<li><code>-10<sup>9</sup> <= Node.val <= 10<sup>9</sup></code></li>\n\t<li>所有 <code>Node.val</code> <code>互不相同</code> 。</li>\n\t<li><code>p != q</code></li>\n\t<li><code>p</code> 和 <code>q</code> 均存在于给定的二叉树中。</li>\n</ul>\n"
+  },
+  {
+   "rank": 23,
+   "freq": 261,
+   "slug": "merge-k-sorted-lists",
+   "id": "23",
+   "title": "合并K个排序链表",
+   "difficulty": "困难",
+   "content": "<p>给你一个链表数组，每个链表都已经按升序排列。</p>\n\n<p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre><strong>输入：</strong>lists = [[1,4,5],[1,3,4],[2,6]]\n<strong>输出：</strong>[1,1,2,3,4,4,5,6]\n<strong>解释：</strong>链表数组如下：\n[\n  1-&gt;4-&gt;5,\n  1-&gt;3-&gt;4,\n  2-&gt;6\n]\n将它们合并到一个有序链表中得到。\n1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre><strong>输入：</strong>lists = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre><strong>输入：</strong>lists = [[]]\n<strong>输出：</strong>[]\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>k == lists.length</code></li>\n\t<li><code>0 &lt;= k &lt;= 10^4</code></li>\n\t<li><code>0 &lt;= lists[i].length &lt;= 500</code></li>\n\t<li><code>-10^4 &lt;= lists[i][j] &lt;= 10^4</code></li>\n\t<li><code>lists[i]</code> 按 <strong>升序</strong> 排列</li>\n\t<li><code>lists[i].length</code> 的总和不超过 <code>10^4</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 24,
+   "freq": 260,
+   "slug": "spiral-matrix",
+   "id": "54",
+   "title": "螺旋矩阵",
+   "difficulty": "中等",
+   "content": "<p>给你一个 <code>m</code> 行 <code>n</code> 列的矩阵 <code>matrix</code> ，请按照 <strong>顺时针螺旋顺序</strong> ，返回矩阵中的所有元素。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/11/13/spiral1.jpg\" style=\"width: 242px; height: 242px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[1,2,3],[4,5,6],[7,8,9]]\n<strong>输出：</strong>[1,2,3,6,9,8,7,4,5]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/11/13/spiral.jpg\" style=\"width: 322px; height: 242px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]\n<strong>输出：</strong>[1,2,3,4,8,12,11,10,9,5,6,7]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == matrix.length</code></li>\n\t<li><code>n == matrix[i].length</code></li>\n\t<li><code>1 <= m, n <= 10</code></li>\n\t<li><code>-100 <= matrix[i][j] <= 100</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 25,
+   "freq": 257,
+   "slug": "linked-list-cycle",
+   "id": "141",
+   "title": "环形链表",
+   "difficulty": "简单",
+   "content": "<p>给定一个链表，判断链表中是否有环。</p>\n\n<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code> 指针再次到达，则链表中存在环。 为了表示给定链表中的环，我们使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。<strong>注意：<code>pos</code> 不作为参数进行传递</strong>，仅仅是为了标识链表的实际情况。</p>\n\n<p>如果链表中存在环，则返回 <code>true</code> 。 否则，返回 <code>false</code> 。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>进阶：</strong></p>\n\n<p>你能用 <em>O(1)</em>（即，常量）内存解决此问题吗？</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png\" style=\"height: 97px; width: 300px;\"></p>\n\n<pre><strong>输入：</strong>head = [3,2,0,-4], pos = 1\n<strong>输出：</strong>true\n<strong>解释：</strong>链表中有一个环，其尾部连接到第二个节点。\n</pre>\n\n<p><strong>示例&nbsp;2：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png\" style=\"height: 74px; width: 141px;\"></p>\n\n<pre><strong>输入：</strong>head = [1,2], pos = 0\n<strong>输出：</strong>true\n<strong>解释：</strong>链表中有一个环，其尾部连接到第一个节点。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png\" style=\"height: 45px; width: 45px;\"></p>\n\n<pre><strong>输入：</strong>head = [1], pos = -1\n<strong>输出：</strong>false\n<strong>解释：</strong>链表中没有环。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点的数目范围是 <code>[0, 10<sup>4</sup>]</code></li>\n\t<li><code>-10<sup>5</sup> &lt;= Node.val &lt;= 10<sup>5</sup></code></li>\n\t<li><code>pos</code> 为 <code>-1</code> 或者链表中的一个 <strong>有效索引</strong> 。</li>\n</ul>\n"
+  },
+  {
+   "rank": 26,
+   "freq": 257,
+   "slug": "reorder-list",
+   "id": "143",
+   "title": "重排链表",
+   "difficulty": "中等",
+   "content": "<p>给定一个单链表 <code>L</code><em> </em>的头节点 <code>head</code> ，单链表 <code>L</code> 表示为：</p>\n\n<p><code> L<sub>0 </sub>→ L<sub>1 </sub>→ … → L<sub>n-1 </sub>→ L<sub>n </sub></code><br />\n请将其重新排列后变为：</p>\n\n<p><code>L<sub>0 </sub>→ L<sub>n </sub>→ L<sub>1 </sub>→ L<sub>n-1 </sub>→ L<sub>2 </sub>→ L<sub>n-2 </sub>→ …</code></p>\n\n<p>不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n\n<p><img alt=\"\" src=\"https://pic.leetcode-cn.com/1626420311-PkUiGI-image.png\" style=\"width: 240px; \" /></p>\n\n<pre>\n<strong>输入: </strong>head = [1,2,3,4]\n<strong>输出: </strong>[1,4,2,3]</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<p><img alt=\"\" src=\"https://pic.leetcode-cn.com/1626420320-YUiulT-image.png\" style=\"width: 320px; \" /></p>\n\n<pre>\n<strong>输入: </strong>head = [1,2,3,4,5]\n<strong>输出: </strong>[1,5,2,4,3]</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表的长度范围为 <code>[1, 5 * 10<sup>4</sup>]</code></li>\n\t<li><code>1 <= node.val <= 1000</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 27,
+   "freq": 248,
+   "slug": "merge-intervals",
+   "id": "56",
+   "title": "合并区间",
+   "difficulty": "中等",
+   "content": "<p>以数组 <code>intervals</code> 表示若干个区间的集合，其中单个区间为 <code>intervals[i] = [start<sub>i</sub>, end<sub>i</sub>]</code> 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>intervals = [[1,3],[2,6],[8,10],[15,18]]\n<strong>输出：</strong>[[1,6],[8,10],[15,18]]\n<strong>解释：</strong>区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>intervals = [[1,4],[4,5]]\n<strong>输出：</strong>[[1,5]]\n<strong>解释：</strong>区间 [1,4] 和 [4,5] 可被视为重叠区间。</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= intervals.length <= 10<sup>4</sup></code></li>\n\t<li><code>intervals[i].length == 2</code></li>\n\t<li><code>0 <= start<sub>i</sub> <= end<sub>i</sub> <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 28,
+   "freq": 246,
+   "slug": "add-strings",
+   "id": "415",
+   "title": "字符串相加",
+   "difficulty": "简单",
+   "content": "<p>给定两个字符串形式的非负整数&nbsp;<code>num1</code> 和<code>num2</code>&nbsp;，计算它们的和并同样以字符串形式返回。</p>\n\n<p>你不能使用任何內建的用于处理大整数的库（比如 <code>BigInteger</code>），&nbsp;也不能直接将输入的字符串转换为整数形式。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>num1 = \"11\", num2 = \"123\"\n<strong>输出：</strong>\"134\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>num1 = \"456\", num2 = \"77\"\n<strong>输出：</strong>\"533\"\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>num1 = \"0\", num2 = \"0\"\n<strong>输出：</strong>\"0\"\n</pre>\n\n<p>&nbsp;</p>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= num1.length, num2.length &lt;= 10<sup>4</sup></code></li>\n\t<li><code>num1</code> 和<code>num2</code> 都只包含数字&nbsp;<code>0-9</code></li>\n\t<li><code>num1</code> 和<code>num2</code> 都不包含任何前导零</li>\n</ul>\n"
+  },
+  {
+   "rank": 29,
+   "freq": 207,
+   "slug": "edit-distance",
+   "id": "72",
+   "title": "编辑距离",
+   "difficulty": "困难",
+   "content": "<p>给你两个单词 <code>word1</code> 和 <code>word2</code>，请你计算出将 <code>word1</code> 转换成 <code>word2</code><em> </em>所使用的最少操作数 。</p>\n\n<p>你可以对一个单词进行如下三种操作：</p>\n\n<ul>\n\t<li>插入一个字符</li>\n\t<li>删除一个字符</li>\n\t<li>替换一个字符</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>word1 = \"horse\", word2 = \"ros\"\n<strong>输出：</strong>3\n<strong>解释：</strong>\nhorse -> rorse (将 'h' 替换为 'r')\nrorse -> rose (删除 'r')\nrose -> ros (删除 'e')\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>word1 = \"intention\", word2 = \"execution\"\n<strong>输出：</strong>5\n<strong>解释：</strong>\nintention -> inention (删除 't')\ninention -> enention (将 'i' 替换为 'e')\nenention -> exention (将 'n' 替换为 'x')\nexention -> exection (将 'n' 替换为 'c')\nexection -> execution (插入 'u')\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= word1.length, word2.length <= 500</code></li>\n\t<li><code>word1</code> 和 <code>word2</code> 由小写英文字母组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 30,
+   "freq": 203,
+   "slug": "intersection-of-two-linked-lists",
+   "id": "160",
+   "title": "相交链表",
+   "difficulty": "简单",
+   "content": "<p>给你两个单链表的头节点 <code>headA</code> 和 <code>headB</code> ，请你找出并返回两个单链表相交的起始节点。如果两个链表没有交点，返回 <code>null</code> 。</p>\n\n<p>图示两个链表在节点 <code>c1</code> 开始相交<strong>：</strong></p>\n\n<p><a href=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png\" target=\"_blank\"><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png\" style=\"height: 130px; width: 400px;\" /></a></p>\n\n<p>题目数据 <strong>保证</strong> 整个链式结构中不存在环。</p>\n\n<p><strong>注意</strong>，函数返回结果后，链表必须 <strong>保持其原始结构</strong> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<p><a href=\"https://assets.leetcode.com/uploads/2018/12/13/160_example_1.png\" target=\"_blank\"><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_example_1.png\" style=\"height: 130px; width: 400px;\" /></a></p>\n\n<pre>\n<strong>输入：</strong>intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3\n<strong>输出：</strong>Intersected at '8'\n<strong>解释：</strong>相交节点的值为 8 （注意，如果两个链表相交则不能为 0）。\n从各自的表头开始算起，链表 A 为 [4,1,8,4,5]，链表 B 为 [5,0,1,8,4,5]。\n在 A 中，相交节点前有 2 个节点；在 B 中，相交节点前有 3 个节点。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<p><a href=\"https://assets.leetcode.com/uploads/2018/12/13/160_example_2.png\" target=\"_blank\"><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_example_2.png\" style=\"height: 136px; width: 350px;\" /></a></p>\n\n<pre>\n<strong>输入：</strong>intersectVal = 2, listA = [0,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1\n<strong>输出：</strong>Intersected at '2'\n<strong>解释：</strong>相交节点的值为 2 （注意，如果两个链表相交则不能为 0）。\n从各自的表头开始算起，链表 A 为 [0,9,1,2,4]，链表 B 为 [3,2,4]。\n在 A 中，相交节点前有 3 个节点；在 B 中，相交节点前有 1 个节点。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<p><a href=\"https://assets.leetcode.com/uploads/2018/12/13/160_example_3.png\" target=\"_blank\"><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_example_3.png\" style=\"height: 126px; width: 200px;\" /></a></p>\n\n<pre>\n<strong>输入：</strong>intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2\n<strong>输出：</strong>null\n<strong>解释：</strong>从各自的表头开始算起，链表 A 为 [2,6,4]，链表 B 为 [1,5]。\n由于这两个链表不相交，所以 intersectVal 必须为 0，而 skipA 和 skipB 可以是任意值。\n这两个链表不相交，因此返回 null 。\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>listA</code> 中节点数目为 <code>m</code></li>\n\t<li><code>listB</code> 中节点数目为 <code>n</code></li>\n\t<li><code>0 <= m, n <= 3 * 10<sup>4</sup></code></li>\n\t<li><code>1 <= Node.val <= 10<sup>5</sup></code></li>\n\t<li><code>0 <= skipA <= m</code></li>\n\t<li><code>0 <= skipB <= n</code></li>\n\t<li>如果 <code>listA</code> 和 <code>listB</code> 没有交点，<code>intersectVal</code> 为 <code>0</code></li>\n\t<li>如果 <code>listA</code> 和 <code>listB</code> 有交点，<code>intersectVal == listA[skipA + 1] == listB[skipB + 1]</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>你能否设计一个时间复杂度 <code>O(n)</code> 、仅用 <code>O(1)</code> 内存的解决方案？</p>\n"
+  },
+  {
+   "rank": 31,
+   "freq": 201,
+   "slug": "trapping-rain-water",
+   "id": "42",
+   "title": "接雨水",
+   "difficulty": "困难",
+   "content": "<p>给定 <em>n</em> 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<p><img src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/22/rainwatertrap.png\" style=\"height: 161px; width: 412px;\" /></p>\n\n<pre>\n<strong>输入：</strong>height = [0,1,0,2,1,0,1,3,2,1,2,1]\n<strong>输出：</strong>6\n<strong>解释：</strong>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 \n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>height = [4,2,0,3,2,5]\n<strong>输出：</strong>9\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>n == height.length</code></li>\n\t<li><code>0 <= n <= 3 * 10<sup>4</sup></code></li>\n\t<li><code>0 <= height[i] <= 10<sup>5</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 32,
+   "freq": 200,
+   "slug": "longest-common-subsequence",
+   "id": "1143",
+   "title": "最长公共子序列",
+   "difficulty": "中等",
+   "content": "<p>给定两个字符串 <code>text1</code> 和 <code>text2</code>，返回这两个字符串的最长 <strong>公共子序列</strong> 的长度。如果不存在 <strong>公共子序列</strong> ，返回 <code>0</code> 。</p>\n\n<p>一个字符串的 <strong>子序列</strong><em> </em>是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。</p>\n\n<ul>\n\t<li>例如，<code>\"ace\"</code> 是 <code>\"abcde\"</code> 的子序列，但 <code>\"aec\"</code> 不是 <code>\"abcde\"</code> 的子序列。</li>\n</ul>\n\n<p>两个字符串的 <strong>公共子序列</strong> 是这两个字符串所共同拥有的子序列。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>text1 = \"abcde\", text2 = \"ace\" \n<strong>输出：</strong>3  \n<strong>解释：</strong>最长公共子序列是 \"ace\" ，它的长度为 3 。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>text1 = \"abc\", text2 = \"abc\"\n<strong>输出：</strong>3\n<strong>解释：</strong>最长公共子序列是 \"abc\" ，它的长度为 3 。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>text1 = \"abc\", text2 = \"def\"\n<strong>输出：</strong>0\n<strong>解释：</strong>两个字符串没有公共子序列，返回 0 。\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= text1.length, text2.length <= 1000</code></li>\n\t<li><code>text1</code> 和 <code>text2</code> 仅由小写英文字符组成。</li>\n</ul>\n"
+  },
+  {
+   "rank": 33,
+   "freq": 188,
+   "slug": "remove-nth-node-from-end-of-list",
+   "id": "19",
+   "title": "删除链表的倒数第N个节点",
+   "difficulty": "中等",
+   "content": "<p>给你一个链表，删除链表的倒数第 <code>n</code><em> </em>个结点，并且返回链表的头结点。</p>\n\n<p><strong>进阶：</strong>你能尝试使用一趟扫描实现吗？</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/03/remove_ex1.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4,5], n = 2\n<strong>输出：</strong>[1,2,3,5]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [1], n = 1\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [1,2], n = 1\n<strong>输出：</strong>[1]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中结点的数目为 <code>sz</code></li>\n\t<li><code>1 <= sz <= 30</code></li>\n\t<li><code>0 <= Node.val <= 100</code></li>\n\t<li><code>1 <= n <= sz</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 34,
+   "freq": 187,
+   "slug": "restore-ip-addresses",
+   "id": "93",
+   "title": "复原IP地址",
+   "difficulty": "中等",
+   "content": "<p>给定一个只包含数字的字符串，用以表示一个 IP 地址，返回所有可能从 <code>s</code> 获得的 <strong>有效 IP 地址 </strong>。你可以按任何顺序返回答案。</p>\n\n<p><strong>有效 IP 地址</strong> 正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 <code>0</code>），整数之间用 <code>'.'</code> 分隔。</p>\n\n<p>例如：\"0.1.2.201\" 和 \"192.168.1.1\" 是 <strong>有效</strong> IP 地址，但是 \"0.011.255.245\"、\"192.168.1.312\" 和 \"192.168@1.1\" 是 <strong>无效</strong> IP 地址。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"25525511135\"\n<strong>输出：</strong>[\"255.255.11.135\",\"255.255.111.35\"]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"0000\"\n<strong>输出：</strong>[\"0.0.0.0\"]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"1111\"\n<strong>输出：</strong>[\"1.1.1.1\"]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"010010\"\n<strong>输出：</strong>[\"0.10.0.10\",\"0.100.1.0\"]\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"101023\"\n<strong>输出：</strong>[\"1.0.10.23\",\"1.0.102.3\",\"10.1.0.23\",\"10.10.2.3\",\"101.0.2.3\"]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= s.length <= 3000</code></li>\n\t<li><code>s</code> 仅由数字组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 35,
+   "freq": 187,
+   "slug": "remove-duplicates-from-sorted-list-ii",
+   "id": "82",
+   "title": "删除排序链表中的重复元素 II",
+   "difficulty": "中等",
+   "content": "<p>存在一个按升序排列的链表，给你这个链表的头节点 <code>head</code> ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 <strong>没有重复出现</strong><em> </em>的数字。</p>\n\n<p>返回同样按升序排列的结果链表。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/04/linkedlist1.jpg\" style=\"width: 500px; height: 142px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,3,4,4,5]\n<strong>输出：</strong>[1,2,5]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/04/linkedlist2.jpg\" style=\"width: 500px; height: 205px;\" />\n<pre>\n<strong>输入：</strong>head = [1,1,1,2,3]\n<strong>输出：</strong>[2,3]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点数目在范围 <code>[0, 300]</code> 内</li>\n\t<li><code>-100 <= Node.val <= 100</code></li>\n\t<li>题目数据保证链表已经按升序排列</li>\n</ul>\n"
+  },
+  {
+   "rank": 36,
+   "freq": 185,
+   "slug": "binary-tree-maximum-path-sum",
+   "id": "124",
+   "title": "二叉树中的最大路径和",
+   "difficulty": "困难",
+   "content": "<p><strong>路径</strong> 被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中 <strong>至多出现一次</strong> 。该路径<strong> 至少包含一个 </strong>节点，且不一定经过根节点。</p>\n\n<p><strong>路径和</strong> 是路径中各节点值的总和。</p>\n\n<p>给你一个二叉树的根节点 <code>root</code> ，返回其 <strong>最大路径和</strong> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/13/exx1.jpg\" style=\"width: 322px; height: 182px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2,3]\n<strong>输出：</strong>6\n<strong>解释：</strong>最优路径是 2 -> 1 -> 3 ，路径和为 2 + 1 + 3 = 6</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/13/exx2.jpg\" />\n<pre>\n<strong>输入：</strong>root = [-10,9,20,null,null,15,7]\n<strong>输出：</strong>42\n<strong>解释：</strong>最优路径是 15 -> 20 -> 7 ，路径和为 15 + 20 + 7 = 42\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点数目范围是 <code>[1, 3 * 10<sup>4</sup>]</code></li>\n\t<li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 37,
+   "freq": 175,
+   "slug": "median-of-two-sorted-arrays",
+   "id": "4",
+   "title": "寻找两个正序数组的中位数",
+   "difficulty": "困难",
+   "content": "<p>给定两个大小分别为 <code>m</code> 和 <code>n</code> 的正序（从小到大）数组 <code>nums1</code> 和 <code>nums2</code>。请你找出并返回这两个正序数组的 <strong>中位数</strong> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [1,3], nums2 = [2]\n<strong>输出：</strong>2.00000\n<strong>解释：</strong>合并数组 = [1,2,3] ，中位数 2\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [1,2], nums2 = [3,4]\n<strong>输出：</strong>2.50000\n<strong>解释：</strong>合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [0,0], nums2 = [0,0]\n<strong>输出：</strong>0.00000\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [], nums2 = [1]\n<strong>输出：</strong>1.00000\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums1 = [2], nums2 = []\n<strong>输出：</strong>2.00000\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>nums1.length == m</code></li>\n\t<li><code>nums2.length == n</code></li>\n\t<li><code>0 <= m <= 1000</code></li>\n\t<li><code>0 <= n <= 1000</code></li>\n\t<li><code>1 <= m + n <= 2000</code></li>\n\t<li><code>-10<sup>6</sup> <= nums1[i], nums2[i] <= 10<sup>6</sup></code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>你能设计一个时间复杂度为 <code>O(log (m+n))</code> 的算法解决此问题吗？</p>\n"
+  },
+  {
+   "rank": 38,
+   "freq": 171,
+   "slug": "linked-list-cycle-ii",
+   "id": "142",
+   "title": "环形链表 II",
+   "difficulty": "中等",
+   "content": "<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>。</p>\n\n<p>为了表示给定链表中的环，我们使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。<strong>注意，<code>pos</code> 仅仅是用于标识环的情况，并不会作为参数传递到函数中。</strong></p>\n\n<p><strong>说明：</strong>不允许修改给定的链表。</p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>你是否可以使用 <code>O(1)</code> 空间解决此题？</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png\" style=\"height: 97px; width: 300px;\" /></p>\n\n<pre>\n<strong>输入：</strong>head = [3,2,0,-4], pos = 1\n<strong>输出：</strong>返回索引为 1 的链表节点\n<strong>解释：</strong>链表中有一个环，其尾部连接到第二个节点。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png\" style=\"height: 74px; width: 141px;\" /></p>\n\n<pre>\n<strong>输入：</strong>head = [1,2], pos = 0\n<strong>输出：</strong>返回索引为 0 的链表节点\n<strong>解释：</strong>链表中有一个环，其尾部连接到第一个节点。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<p><img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png\" style=\"height: 45px; width: 45px;\" /></p>\n\n<pre>\n<strong>输入：</strong>head = [1], pos = -1\n<strong>输出：</strong>返回 null\n<strong>解释：</strong>链表中没有环。\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点的数目范围在范围 <code>[0, 10<sup>4</sup>]</code> 内</li>\n\t<li><code>-10<sup>5</sup> <= Node.val <= 10<sup>5</sup></code></li>\n\t<li><code>pos</code> 的值为 <code>-1</code> 或者链表中的一个有效索引</li>\n</ul>\n"
+  },
+  {
+   "rank": 39,
+   "freq": 167,
+   "slug": "compare-version-numbers",
+   "id": "165",
+   "title": "比较版本号",
+   "difficulty": "中等",
+   "content": "<p>给你两个版本号 <code>version1</code> 和 <code>version2</code> ，请你比较它们。</p>\n\n<p>版本号由一个或多个修订号组成，各修订号由一个 <code>'.'</code> 连接。每个修订号由 <strong>多位数字</strong> 组成，可能包含 <strong>前导零</strong> 。每个版本号至少包含一个字符。修订号从左到右编号，下标从 0 开始，最左边的修订号下标为 0 ，下一个修订号下标为 1 ，以此类推。例如，<code>2.5.33</code> 和 <code>0.1</code> 都是有效的版本号。</p>\n\n<p>比较版本号时，请按从左到右的顺序依次比较它们的修订号。比较修订号时，只需比较 <strong>忽略任何前导零后的整数值</strong> 。也就是说，修订号 <code>1</code> 和修订号 <code>001</code> <strong>相等 </strong>。如果版本号没有指定某个下标处的修订号，则该修订号视为 <code>0</code> 。例如，版本 <code>1.0</code> 小于版本 <code>1.1</code> ，因为它们下标为 <code>0</code> 的修订号相同，而下标为 <code>1</code> 的修订号分别为 <code>0</code> 和 <code>1</code> ，<code>0 < 1</code> 。</p>\n\n<p>返回规则如下：</p>\n\n<ul>\n\t<li>如果 <code><em>version1 </em>> <em>version2</em></code> 返回 <code>1</code>，</li>\n\t<li>如果 <code><em>version1 </em>< <em>version2</em></code> 返回 <code>-1</code>，</li>\n\t<li>除此之外返回 <code>0</code>。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>version1 = \"1.01\", version2 = \"1.001\"\n<strong>输出：</strong>0\n<strong>解释：</strong>忽略前导零，\"01\" 和 \"001\" 都表示相同的整数 \"1\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>version1 = \"1.0\", version2 = \"1.0.0\"\n<strong>输出：</strong>0\n<strong>解释：</strong>version1 没有指定下标为 2 的修订号，即视为 \"0\"\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>version1 = \"0.1\", version2 = \"1.1\"\n<strong>输出：</strong>-1\n<strong>解释：</strong>version1 中下标为 0 的修订号是 \"0\"，version2 中下标为 0 的修订号是 \"1\" 。0 < 1，所以 version1 < version2\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>version1 = \"1.0.1\", version2 = \"1\"\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>version1 = \"7.5.2.4\", version2 = \"7.5.3\"\n<strong>输出：</strong>-1\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= version1.length, version2.length <= 500</code></li>\n\t<li><code>version1</code> 和 <code>version2</code> 仅包含数字和 <code>'.'</code></li>\n\t<li><code>version1</code> 和 <code>version2</code> 都是 <strong>有效版本号</strong></li>\n\t<li><code>version1</code> 和 <code>version2</code> 的所有修订号都可以存储在 <strong>32 位整数</strong> 中</li>\n</ul>\n"
+  },
+  {
+   "rank": 40,
+   "freq": 161,
+   "slug": "binary-tree-right-side-view",
+   "id": "199",
+   "title": "二叉树的右视图",
+   "difficulty": "中等",
+   "content": "<p>给定一个二叉树的 <strong>根节点</strong> <code>root</code>，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n\n<p><img src=\"https://assets.leetcode.com/uploads/2021/02/14/tree.jpg\" style=\"width: 270px; \" /></p>\n\n<pre>\n<strong>输入:</strong> [1,2,3,null,5,null,4]\n<strong>输出:</strong> [1,3,4]\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入:</strong> [1,null,3]\n<strong>输出:</strong> [1,3]\n</pre>\n\n<p><strong>示例 3:</strong></p>\n\n<pre>\n<strong>输入:</strong> []\n<strong>输出:</strong> []\n</pre>\n\n<p> </p>\n\n<p><strong>提示:</strong></p>\n\n<ul>\n\t<li>二叉树的节点个数的范围是 <code>[0,100]</code></li>\n\t<li><meta charset=\"UTF-8\" /><code>-100 <= Node.val <= 100</code> </li>\n</ul>\n"
+  },
+  {
+   "rank": 41,
+   "freq": 155,
+   "slug": "sliding-window-maximum",
+   "id": "239",
+   "title": "滑动窗口最大值",
+   "difficulty": "困难",
+   "content": "<p>给你一个整数数组 <code>nums</code>，有一个大小为 <code>k</code><em> </em>的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 <code>k</code> 个数字。滑动窗口每次只向右移动一位。</p>\n\n<p>返回滑动窗口中的最大值。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<b>输入：</b>nums = [1,3,-1,-3,5,3,6,7], k = 3\n<b>输出：</b>[3,3,5,5,6,7]\n<b>解释：</b>\n滑动窗口的位置                最大值\n---------------               -----\n[1  3  -1] -3  5  3  6  7       <strong>3</strong>\n 1 [3  -1  -3] 5  3  6  7       <strong>3</strong>\n 1  3 [-1  -3  5] 3  6  7      <strong> 5</strong>\n 1  3  -1 [-3  5  3] 6  7       <strong>5</strong>\n 1  3  -1  -3 [5  3  6] 7       <strong>6</strong>\n 1  3  -1  -3  5 [3  6  7]      <strong>7</strong>\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<b>输入：</b>nums = [1], k = 1\n<b>输出：</b>[1]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<b>输入：</b>nums = [1,-1], k = 1\n<b>输出：</b>[1,-1]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<b>输入：</b>nums = [9,11], k = 2\n<b>输出：</b>[11]\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<b>输入：</b>nums = [4,-2], k = 2\n<b>输出：</b>[4]</pre>\n\n<p> </p>\n\n<p><b>提示：</b></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>\n\t<li><code>-10<sup>4</sup> <= nums[i] <= 10<sup>4</sup></code></li>\n\t<li><code>1 <= k <= nums.length</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 42,
+   "freq": 153,
+   "slug": "binary-search",
+   "id": "704",
+   "title": "二分查找",
+   "difficulty": "简单",
+   "content": "<p>给定一个&nbsp;<code>n</code>&nbsp;个元素有序的（升序）整型数组&nbsp;<code>nums</code> 和一个目标值&nbsp;<code>target</code> &nbsp;，写一个函数搜索&nbsp;<code>nums</code>&nbsp;中的 <code>target</code>，如果目标值存在返回下标，否则返回 <code>-1</code>。</p>\n\n<p><br>\n<strong>示例 1:</strong></p>\n\n<pre><strong>输入:</strong> <code>nums</code> = [-1,0,3,5,9,12], <code>target</code> = 9\n<strong>输出:</strong> 4\n<strong>解释:</strong> 9 出现在 <code>nums</code> 中并且下标为 4\n</pre>\n\n<p><strong>示例&nbsp;2:</strong></p>\n\n<pre><strong>输入:</strong> <code>nums</code> = [-1,0,3,5,9,12], <code>target</code> = 2\n<strong>输出:</strong> -1\n<strong>解释:</strong> 2 不存在 <code>nums</code> 中因此返回 -1\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ol>\n\t<li>你可以假设 <code>nums</code>&nbsp;中的所有元素是不重复的。</li>\n\t<li><code>n</code>&nbsp;将在&nbsp;<code>[1, 10000]</code>之间。</li>\n\t<li><code>nums</code>&nbsp;的每个元素都将在&nbsp;<code>[-9999, 9999]</code>之间。</li>\n</ol>\n"
+  },
+  {
+   "rank": 43,
+   "freq": 152,
+   "slug": "generate-parentheses",
+   "id": "22",
+   "title": "括号生成",
+   "difficulty": "中等",
+   "content": "<p>数字 <code>n</code>&nbsp;代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 <strong>有效的 </strong>括号组合。</p>\n\n<p>有效括号组合需满足：左括号必须以正确的顺序闭合。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>n = 3\n<strong>输出：</strong>[\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>n = 1\n<strong>输出：</strong>[\"()\"]\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= n &lt;= 8</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 44,
+   "freq": 150,
+   "slug": "longest-valid-parentheses",
+   "id": "32",
+   "title": "最长有效括号",
+   "difficulty": "困难",
+   "content": "<p>给你一个只包含 <code>'('</code> 和 <code>')'</code> 的字符串，找出最长有效（格式正确且连续）括号子串的长度。</p>\n\n<p> </p>\n\n<div class=\"original__bRMd\">\n<div>\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"(()\"\n<strong>输出：</strong>2\n<strong>解释：</strong>最长有效括号子串是 \"()\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \")()())\"\n<strong>输出：</strong>4\n<strong>解释：</strong>最长有效括号子串是 \"()()\"\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"\"\n<strong>输出：</strong>0\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= s.length <= 3 * 10<sup>4</sup></code></li>\n\t<li><code>s[i]</code> 为 <code>'('</code> 或 <code>')'</code></li>\n</ul>\n</div>\n</div>\n"
+  },
+  {
+   "rank": 45,
+   "freq": 149,
+   "slug": "sqrtx",
+   "id": "69",
+   "title": "x 的平方根",
+   "difficulty": "简单",
+   "content": "<p>给你一个非负整数 <code>x</code> ，计算并返回&nbsp;<code>x</code>&nbsp;的 <strong>平方根</strong> 。</p>\n\n<p>由于返回类型是整数，结果只保留 <strong>整数部分 </strong>，小数部分将被 <strong>舍去 。</strong></p>\n\n<p><strong>注意：</strong>不允许使用任何内置指数函数和算符，例如 <code>pow(x, 0.5)</code> 或者 <code>x ** 0.5</code> 。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>x = 4\n<strong>输出：</strong>2\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>x = 8\n<strong>输出：</strong>2\n<strong>解释：</strong>8 的平方根是 2.82842..., 由于返回类型是整数，小数部分将被舍去。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 &lt;= x &lt;= 2<sup>31</sup> - 1</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 46,
+   "freq": 148,
+   "slug": "sort-list",
+   "id": "148",
+   "title": "排序链表",
+   "difficulty": "中等",
+   "content": "<p>给你链表的头结点 <code>head</code> ，请将其按 <strong>升序</strong> 排列并返回 <strong>排序后的链表</strong> 。</p>\n\n<p><b>进阶：</b></p>\n\n<ul>\n\t<li>你可以在 <code>O(n log n)</code> 时间复杂度和常数级空间复杂度下，对链表进行排序吗？</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/14/sort_list_1.jpg\" style=\"width: 302px; \"/>\n<pre>\n<b>输入：</b>head = [4,2,1,3]\n<b>输出：</b>[1,2,3,4]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/14/sort_list_2.jpg\" style=\"width: 402px; \" />\n<pre>\n<b>输入：</b>head = [-1,5,3,4,0]\n<b>输出：</b>[-1,0,3,4,5]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<b>输入：</b>head = []\n<b>输出：</b>[]\n</pre>\n\n<p> </p>\n\n<p><b>提示：</b></p>\n\n<ul>\n\t<li>链表中节点的数目在范围 <code>[0, 5 * 10<sup>4</sup>]</code> 内</li>\n\t<li><code>-10<sup>5</sup> <= Node.val <= 10<sup>5</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 47,
+   "freq": 144,
+   "slug": "binary-tree-inorder-traversal",
+   "id": "94",
+   "title": "二叉树的中序遍历",
+   "difficulty": "简单",
+   "content": "<p>给定一个二叉树的根节点 <code>root</code> ，返回它的 <strong>中序</strong> 遍历。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg\" style=\"width: 202px; height: 324px;\" />\n<pre>\n<strong>输入：</strong>root = [1,null,2,3]\n<strong>输出：</strong>[1,3,2]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = [1]\n<strong>输出：</strong>[1]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_5.jpg\" style=\"width: 202px; height: 202px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2]\n<strong>输出：</strong>[2,1]\n</pre>\n\n<p><strong>示例 5：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_4.jpg\" style=\"width: 202px; height: 202px;\" />\n<pre>\n<strong>输入：</strong>root = [1,null,2]\n<strong>输出：</strong>[1,2]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点数目在范围 <code>[0, 100]</code> 内</li>\n\t<li><code>-100 <= Node.val <= 100</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶:</strong> 递归算法很简单，你可以通过迭代算法完成吗？</p>\n"
+  },
+  {
+   "rank": 48,
+   "freq": 143,
+   "slug": "implement-queue-using-stacks",
+   "id": "232",
+   "title": "用栈实现队列",
+   "difficulty": "简单",
+   "content": "<p>请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（<code>push</code>、<code>pop</code>、<code>peek</code>、<code>empty</code>）：</p>\n\n<p>实现 <code>MyQueue</code> 类：</p>\n\n<ul>\n\t<li><code>void push(int x)</code> 将元素 x 推到队列的末尾</li>\n\t<li><code>int pop()</code> 从队列的开头移除并返回元素</li>\n\t<li><code>int peek()</code> 返回队列开头的元素</li>\n\t<li><code>boolean empty()</code> 如果队列为空，返回 <code>true</code> ；否则，返回 <code>false</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>说明：</strong></p>\n\n<ul>\n\t<li>你只能使用标准的栈操作 —— 也就是只有 <code>push to top</code>, <code>peek/pop from top</code>, <code>size</code>, 和 <code>is empty</code> 操作是合法的。</li>\n\t<li>你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>你能否实现每个操作均摊时间复杂度为 <code>O(1)</code> 的队列？换句话说，执行 <code>n</code> 个操作的总时间复杂度为 <code>O(n)</code> ，即使其中一个操作可能花费较长时间。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例：</strong></p>\n\n<pre>\n<strong>输入：</strong>\n[\"MyQueue\", \"push\", \"push\", \"peek\", \"pop\", \"empty\"]\n[[], [1], [2], [], [], []]\n<strong>输出：</strong>\n[null, null, null, 1, 1, false]\n\n<strong>解释：</strong>\nMyQueue myQueue = new MyQueue();\nmyQueue.push(1); // queue is: [1]\nmyQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)\nmyQueue.peek(); // return 1\nmyQueue.pop(); // return 1, queue is [2]\nmyQueue.empty(); // return false\n</pre>\n\n<ul>\n</ul>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= x <= 9</code></li>\n\t<li>最多调用 <code>100</code> 次 <code>push</code>、<code>pop</code>、<code>peek</code> 和 <code>empty</code></li>\n\t<li>假设所有操作都是有效的 （例如，一个空的队列不会调用 <code>pop</code> 或者 <code>peek</code> 操作）</li>\n</ul>\n"
+  },
+  {
+   "rank": 49,
+   "freq": 137,
+   "slug": "next-permutation",
+   "id": "31",
+   "title": "下一个排列",
+   "difficulty": "中等",
+   "content": "<p>实现获取 <strong>下一个排列</strong> 的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列（即，组合出下一个更大的整数）。</p>\n\n<p>如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</p>\n\n<p>必须<strong><a href=\"https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95\" target=\"_blank\"> 原地 </a></strong>修改，只允许使用额外常数空间。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,2,3]\n<strong>输出：</strong>[1,3,2]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [3,2,1]\n<strong>输出：</strong>[1,2,3]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,1,5]\n<strong>输出：</strong>[1,5,1]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1]\n<strong>输出：</strong>[1]\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= nums.length &lt;= 100</code></li>\n\t<li><code>0 &lt;= nums[i] &lt;= 100</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 50,
+   "freq": 136,
+   "slug": "minimum-window-substring",
+   "id": "76",
+   "title": "最小覆盖子串",
+   "difficulty": "困难",
+   "content": "<p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>\"\"</code> 。</p>\n\n<p> </p>\n\n<p><strong>注意：</strong></p>\n\n<ul>\n\t<li>对于 <code>t</code> 中重复字符，我们寻找的子字符串中该字符数量必须不少于 <code>t</code> 中该字符数量。</li>\n\t<li>如果 <code>s</code> 中存在这样的子串，我们保证它是唯一的答案。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"ADOBECODEBANC\", t = \"ABC\"\n<strong>输出：</strong>\"BANC\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"a\", t = \"a\"\n<strong>输出：</strong>\"a\"\n</pre>\n\n<p><strong>示例 3:</strong></p>\n\n<pre>\n<strong>输入:</strong> s = \"a\", t = \"aa\"\n<strong>输出:</strong> \"\"\n<strong>解释:</strong> t 中两个字符 'a' 均应包含在 s 的子串中，\n因此没有符合条件的子字符串，返回空字符串。</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= s.length, t.length <= 10<sup>5</sup></code></li>\n\t<li><code>s</code> 和 <code>t</code> 由英文字母组成</li>\n</ul>\n\n<p> </p>\n<strong>进阶：</strong>你能设计一个在 <code>o(n)</code> 时间内解决此问题的算法吗？"
+  },
+  {
+   "rank": 51,
+   "freq": 134,
+   "slug": "climbing-stairs",
+   "id": "70",
+   "title": "爬楼梯",
+   "difficulty": "简单",
+   "content": "<p>假设你正在爬楼梯。需要 <em>n</em>&nbsp;阶你才能到达楼顶。</p>\n\n<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>\n\n<p><strong>注意：</strong>给定 <em>n</em> 是一个正整数。</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre><strong>输入：</strong> 2\n<strong>输出：</strong> 2\n<strong>解释：</strong> 有两种方法可以爬到楼顶。\n1.  1 阶 + 1 阶\n2.  2 阶</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre><strong>输入：</strong> 3\n<strong>输出：</strong> 3\n<strong>解释：</strong> 有三种方法可以爬到楼顶。\n1.  1 阶 + 1 阶 + 1 阶\n2.  1 阶 + 2 阶\n3.  2 阶 + 1 阶\n</pre>\n"
+  },
+  {
+   "rank": 52,
+   "freq": 134,
+   "slug": "string-to-integer-atoi",
+   "id": "8",
+   "title": "字符串转换整数 (atoi)",
+   "difficulty": "中等",
+   "content": "<p>请你来实现一个 <code>myAtoi(string s)</code> 函数，使其能将字符串转换成一个 32 位有符号整数（类似 C/C++ 中的 <code>atoi</code> 函数）。</p>\n\n<p>函数 <code>myAtoi(string s)</code> 的算法如下：</p>\n\n<ul>\n\t<li>读入字符串并丢弃无用的前导空格</li>\n\t<li>检查下一个字符（假设还未到字符末尾）为正还是负号，读取该字符（如果有）。 确定最终结果是负数还是正数。 如果两者都不存在，则假定结果为正。</li>\n\t<li>读入下一个字符，直到到达下一个非数字字符或到达输入的结尾。字符串的其余部分将被忽略。</li>\n\t<li>将前面步骤读入的这些数字转换为整数（即，\"123\" -> 123， \"0032\" -> 32）。如果没有读入数字，则整数为 <code>0</code> 。必要时更改符号（从步骤 2 开始）。</li>\n\t<li>如果整数数超过 32 位有符号整数范围 <code>[−2<sup>31</sup>,  2<sup>31 </sup>− 1]</code> ，需要截断这个整数，使其保持在这个范围内。具体来说，小于 <code>−2<sup>31</sup></code> 的整数应该被固定为 <code>−2<sup>31</sup></code> ，大于 <code>2<sup>31 </sup>− 1</code> 的整数应该被固定为 <code>2<sup>31 </sup>− 1</code> 。</li>\n\t<li>返回整数作为最终结果。</li>\n</ul>\n\n<p><strong>注意：</strong></p>\n\n<ul>\n\t<li>本题中的空白字符只包括空格字符 <code>' '</code> 。</li>\n\t<li>除前导空格或数字后的其余字符串外，<strong>请勿忽略</strong> 任何其他字符。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"42\"\n<strong>输出：</strong>42\n<strong>解释：</strong>加粗的字符串为已经读入的字符，插入符号是当前读取的字符。\n第 1 步：\"42\"（当前没有读入字符，因为没有前导空格）\n         ^\n第 2 步：\"42\"（当前没有读入字符，因为这里不存在 '-' 或者 '+'）\n         ^\n第 3 步：\"<strong>42</strong>\"（读入 \"42\"）\n           ^\n解析得到整数 42 。\n由于 \"42\" 在范围 [-2<sup>31</sup>, 2<sup>31</sup> - 1] 内，最终结果为 42 。</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"   -42\"\n<strong>输出：</strong>-42\n<strong>解释：</strong>\n第 1 步：\"<strong>   </strong>-42\"（读入前导空格，但忽视掉）\n            ^\n第 2 步：\"   <strong>-</strong>42\"（读入 '-' 字符，所以结果应该是负数）\n             ^\n第 3 步：\"   -<strong>42</strong>\"（读入 \"42\"）\n               ^\n解析得到整数 -42 。\n由于 \"-42\" 在范围 [-2<sup>31</sup>, 2<sup>31</sup> - 1] 内，最终结果为 -42 。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"4193 with words\"\n<strong>输出：</strong>4193\n<strong>解释：</strong>\n第 1 步：\"4193 with words\"（当前没有读入字符，因为没有前导空格）\n         ^\n第 2 步：\"4193 with words\"（当前没有读入字符，因为这里不存在 '-' 或者 '+'）\n         ^\n第 3 步：\"<strong>4193</strong> with words\"（读入 \"4193\"；由于下一个字符不是一个数字，所以读入停止）\n             ^\n解析得到整数 4193 。\n由于 \"4193\" 在范围 [-2<sup>31</sup>, 2<sup>31</sup> - 1] 内，最终结果为 4193 。\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"words and 987\"\n<strong>输出：</strong>0\n<strong>解释：</strong>\n第 1 步：\"words and 987\"（当前没有读入字符，因为没有前导空格）\n         ^\n第 2 步：\"words and 987\"（当前没有读入字符，因为这里不存在 '-' 或者 '+'）\n         ^\n第 3 步：\"words and 987\"（由于当前字符 'w' 不是一个数字，所以读入停止）\n         ^\n解析得到整数 0 ，因为没有读入任何数字。\n由于 0 在范围 [-2<sup>31</sup>, 2<sup>31</sup> - 1] 内，最终结果为 0 。</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"-91283472332\"\n<strong>输出：</strong>-2147483648\n<strong>解释：</strong>\n第 1 步：\"-91283472332\"（当前没有读入字符，因为没有前导空格）\n         ^\n第 2 步：\"<strong>-</strong>91283472332\"（读入 '-' 字符，所以结果应该是负数）\n          ^\n第 3 步：\"-<strong>91283472332</strong>\"（读入 \"91283472332\"）\n                     ^\n解析得到整数 -91283472332 。\n由于 -91283472332 小于范围 [-2<sup>31</sup>, 2<sup>31</sup> - 1] 的下界，最终结果被截断为 -2<sup>31</sup> = -2147483648 。</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= s.length <= 200</code></li>\n\t<li><code>s</code> 由英文字母（大写和小写）、数字（<code>0-9</code>）、<code>' '</code>、<code>'+'</code>、<code>'-'</code> 和 <code>'.'</code> 组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 53,
+   "freq": 133,
+   "slug": "coin-change",
+   "id": "322",
+   "title": "零钱兑换",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组 <code>coins</code> ，表示不同面额的硬币；以及一个整数 <code>amount</code> ，表示总金额。</p>\n\n<p>计算并返回可以凑成总金额所需的 <strong>最少的硬币个数</strong> 。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code> 。</p>\n\n<p>你可以认为每种硬币的数量是无限的。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>coins = <code>[1, 2, 5]</code>, amount = <code>11</code>\n<strong>输出：</strong><code>3</code> \n<strong>解释：</strong>11 = 5 + 5 + 1</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>coins = <code>[2]</code>, amount = <code>3</code>\n<strong>输出：</strong>-1</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>coins = [1], amount = 0\n<strong>输出：</strong>0\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>coins = [1], amount = 1\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>coins = [1], amount = 2\n<strong>输出：</strong>2\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= coins.length <= 12</code></li>\n\t<li><code>1 <= coins[i] <= 2<sup>31</sup> - 1</code></li>\n\t<li><code>0 <= amount <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 54,
+   "freq": 133,
+   "slug": "multiply-strings",
+   "id": "43",
+   "title": "字符串相乘",
+   "difficulty": "中等",
+   "content": "<p>给定两个以字符串形式表示的非负整数&nbsp;<code>num1</code>&nbsp;和&nbsp;<code>num2</code>，返回&nbsp;<code>num1</code>&nbsp;和&nbsp;<code>num2</code>&nbsp;的乘积，它们的乘积也表示为字符串形式。</p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre><strong>输入:</strong> num1 = &quot;2&quot;, num2 = &quot;3&quot;\n<strong>输出:</strong> &quot;6&quot;</pre>\n\n<p><strong>示例&nbsp;2:</strong></p>\n\n<pre><strong>输入:</strong> num1 = &quot;123&quot;, num2 = &quot;456&quot;\n<strong>输出:</strong> &quot;56088&quot;</pre>\n\n<p><strong>说明：</strong></p>\n\n<ol>\n\t<li><code>num1</code>&nbsp;和&nbsp;<code>num2</code>&nbsp;的长度小于110。</li>\n\t<li><code>num1</code> 和&nbsp;<code>num2</code> 只包含数字&nbsp;<code>0-9</code>。</li>\n\t<li><code>num1</code> 和&nbsp;<code>num2</code>&nbsp;均不以零开头，除非是数字 0 本身。</li>\n\t<li><strong>不能使用任何标准库的大数类型（比如 BigInteger）</strong>或<strong>直接将输入转换为整数来处理</strong>。</li>\n</ol>\n"
+  },
+  {
+   "rank": 55,
+   "freq": 133,
+   "slug": "add-two-numbers",
+   "id": "2",
+   "title": "两数相加",
+   "difficulty": "中等",
+   "content": "<p>给你两个 <strong>非空</strong> 的链表，表示两个非负的整数。它们每位数字都是按照 <strong>逆序</strong> 的方式存储的，并且每个节点只能存储 <strong>一位</strong> 数字。</p>\n\n<p>请你将两个数相加，并以相同形式返回一个表示和的链表。</p>\n\n<p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2021/01/02/addtwonumber1.jpg\" style=\"width: 483px; height: 342px;\" />\n<pre>\n<strong>输入：</strong>l1 = [2,4,3], l2 = [5,6,4]\n<strong>输出：</strong>[7,0,8]\n<strong>解释：</strong>342 + 465 = 807.\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>l1 = [0], l2 = [0]\n<strong>输出：</strong>[0]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]\n<strong>输出：</strong>[8,9,9,9,0,0,0,1]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>每个链表中的节点数在范围 <code>[1, 100]</code> 内</li>\n\t<li><code>0 <= Node.val <= 9</code></li>\n\t<li>题目数据保证列表表示的数字不含前导零</li>\n</ul>\n"
+  },
+  {
+   "rank": 56,
+   "freq": 117,
+   "slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+   "id": "105",
+   "title": "从前序与中序遍历序列构造二叉树",
+   "difficulty": "中等",
+   "content": "<p>给定一棵树的前序遍历 <code>preorder</code> 与中序遍历  <code>inorder</code>。请构造二叉树并返回其根节点。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/tree.jpg\" />\n<pre>\n<strong>Input:</strong> preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]\n<strong>Output:</strong> [3,9,20,null,null,15,7]\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>Input:</strong> preorder = [-1], inorder = [-1]\n<strong>Output:</strong> [-1]\n</pre>\n\n<p> </p>\n\n<p><strong>提示:</strong></p>\n\n<ul>\n\t<li><code>1 <= preorder.length <= 3000</code></li>\n\t<li><code>inorder.length == preorder.length</code></li>\n\t<li><code>-3000 <= preorder[i], inorder[i] <= 3000</code></li>\n\t<li><code>preorder</code> 和 <code>inorder</code> 均无重复元素</li>\n\t<li><code>inorder</code> 均出现在 <code>preorder</code></li>\n\t<li><code>preorder</code> 保证为二叉树的前序遍历序列</li>\n\t<li><code>inorder</code> 保证为二叉树的中序遍历序列</li>\n</ul>\n"
+  },
+  {
+   "rank": 57,
+   "freq": 114,
+   "slug": "first-missing-positive",
+   "id": "41",
+   "title": "缺失的第一个正数",
+   "difficulty": "困难",
+   "content": "<p>给你一个未排序的整数数组 <code>nums</code> ，请你找出其中没有出现的最小的正整数。</p>\n请你实现时间复杂度为 <code>O(n)</code> 并且只使用常数级别额外空间的解决方案。\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,2,0]\n<strong>输出：</strong>3\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [3,4,-1,1]\n<strong>输出：</strong>2\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [7,8,9,11,12]\n<strong>输出：</strong>1\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 5 * 10<sup>5</sup></code></li>\n\t<li><code>-2<sup>31</sup> <= nums[i] <= 2<sup>31</sup> - 1</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 58,
+   "freq": 108,
+   "slug": "subsets",
+   "id": "78",
+   "title": "子集",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组 <code>nums</code> ，数组中的元素 <strong>互不相同</strong> 。返回该数组所有可能的子集（幂集）。</p>\n\n<p>解集 <strong>不能</strong> 包含重复的子集。你可以按 <strong>任意顺序</strong> 返回解集。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,2,3]\n<strong>输出：</strong>[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [0]\n<strong>输出：</strong>[[],[0]]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 10</code></li>\n\t<li><code>-10 <= nums[i] <= 10</code></li>\n\t<li><code>nums</code> 中的所有元素 <strong>互不相同</strong></li>\n</ul>\n"
+  },
+  {
+   "rank": 59,
+   "freq": 107,
+   "slug": "reverse-words-in-a-string",
+   "id": "151",
+   "title": "翻转字符串里的单词",
+   "difficulty": "中等",
+   "content": "<p>给你一个字符串 <code>s</code> ，逐个翻转字符串中的所有 <strong>单词</strong> 。</p>\n\n<p><strong>单词</strong> 是由非空格字符组成的字符串。<code>s</code> 中使用至少一个空格将字符串中的 <strong>单词</strong> 分隔开。</p>\n\n<p>请你返回一个翻转 <code>s</code> 中单词顺序并用单个空格相连的字符串。</p>\n\n<p><strong>说明：</strong></p>\n\n<ul>\n\t<li>输入字符串 <code>s</code> 可以在前面、后面或者单词间包含多余的空格。</li>\n\t<li>翻转后单词间应当仅用一个空格分隔。</li>\n\t<li>翻转后的字符串中不应包含额外的空格。</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"<code>the sky is blue</code>\"\n<strong>输出：</strong>\"<code>blue is sky the</code>\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"  hello world  \"\n<strong>输出：</strong>\"world hello\"\n<strong>解释：</strong>输入字符串可以在前面或者后面包含多余的空格，但是翻转后的字符不能包括。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"a good   example\"\n<strong>输出：</strong>\"example good a\"\n<strong>解释：</strong>如果两个单词间有多余的空格，将翻转后单词间的空格减少到只含一个。\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"  Bob    Loves  Alice   \"\n<strong>输出：</strong>\"Alice Loves Bob\"\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"Alice does not even like bob\"\n<strong>输出：</strong>\"bob like even not does Alice\"\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= s.length <= 10<sup>4</sup></code></li>\n\t<li><code>s</code> 包含英文大小写字母、数字和空格 <code>' '</code></li>\n\t<li><code>s</code> 中 <strong>至少存在一个</strong> 单词</li>\n</ul>\n\n<ul>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>请尝试使用 <code><em>O</em>(1)</code> 额外空间复杂度的原地解法。</li>\n</ul>\n"
+  },
+  {
+   "rank": 60,
+   "freq": 103,
+   "slug": "lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof",
+   "id": "剑指 Offer 22",
+   "title": "链表中倒数第k个节点",
+   "difficulty": "简单",
+   "content": "<p>输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。</p>\n\n<p>例如，一个链表有 <code>6</code> 个节点，从头节点开始，它们的值依次是 <code>1、2、3、4、5、6</code>。这个链表的倒数第 <code>3</code> 个节点是值为 <code>4</code> 的节点。</p>\n\n<p> </p>\n\n<p><strong>示例：</strong></p>\n\n<pre>\n给定一个链表: <strong>1->2->3->4->5</strong>, 和 <em>k </em><strong>= 2</strong>.\n\n返回链表 4<strong>->5</strong>.</pre>\n"
+  },
+  {
+   "rank": 61,
+   "freq": 103,
+   "slug": "find-first-and-last-position-of-element-in-sorted-array",
+   "id": "34",
+   "title": "在排序数组中查找元素的第一个和最后一个位置",
+   "difficulty": "中等",
+   "content": "<p>给定一个按照升序排列的整数数组 <code>nums</code>，和一个目标值 <code>target</code>。找出给定目标值在数组中的开始位置和结束位置。</p>\n\n<p>如果数组中不存在目标值 <code>target</code>，返回 <code>[-1, -1]</code>。</p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>你可以设计并实现时间复杂度为 <code>O(log n)</code> 的算法解决此问题吗？</li>\n</ul>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [<code>5,7,7,8,8,10]</code>, target = 8\n<strong>输出：</strong>[3,4]</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [<code>5,7,7,8,8,10]</code>, target = 6\n<strong>输出：</strong>[-1,-1]</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [], target = 0\n<strong>输出：</strong>[-1,-1]</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= nums.length <= 10<sup>5</sup></code></li>\n\t<li><code>-10<sup>9</sup> <= nums[i] <= 10<sup>9</sup></code></li>\n\t<li><code>nums</code> 是一个非递减数组</li>\n\t<li><code>-10<sup>9</sup> <= target <= 10<sup>9</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 62,
+   "freq": 101,
+   "slug": "decode-string",
+   "id": "394",
+   "title": "字符串解码",
+   "difficulty": "中等",
+   "content": "<p>给定一个经过编码的字符串，返回它解码后的字符串。</p>\n\n<p>编码规则为: <code>k[encoded_string]</code>，表示其中方括号内部的 <em>encoded_string</em> 正好重复 <em>k</em> 次。注意 <em>k</em> 保证为正整数。</p>\n\n<p>你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。</p>\n\n<p>此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 <em>k</em> ，例如不会出现像&nbsp;<code>3a</code>&nbsp;或&nbsp;<code>2[4]</code>&nbsp;的输入。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre><strong>输入：</strong>s = &quot;3[a]2[bc]&quot;\n<strong>输出：</strong>&quot;aaabcbc&quot;\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre><strong>输入：</strong>s = &quot;3[a2[c]]&quot;\n<strong>输出：</strong>&quot;accaccacc&quot;\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre><strong>输入：</strong>s = &quot;2[abc]3[cd]ef&quot;\n<strong>输出：</strong>&quot;abcabccdcdcdef&quot;\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre><strong>输入：</strong>s = &quot;abc3[cd]xyz&quot;\n<strong>输出：</strong>&quot;abccdcdcdxyz&quot;\n</pre>\n"
+  },
+  {
+   "rank": 63,
+   "freq": 100,
+   "slug": "sum-root-to-leaf-numbers",
+   "id": "129",
+   "title": "求根到叶子节点数字之和",
+   "difficulty": "中等",
+   "content": "给你一个二叉树的根节点 <code>root</code> ，树中每个节点都存放有一个 <code>0</code> 到 <code>9</code> 之间的数字。\n<div class=\"original__bRMd\">\n<div>\n<p>每条从根节点到叶节点的路径都代表一个数字：</p>\n\n<ul>\n\t<li>例如，从根节点到叶节点的路径 <code>1 -> 2 -> 3</code> 表示数字 <code>123</code> 。</li>\n</ul>\n\n<p>计算从根节点到叶节点生成的 <strong>所有数字之和</strong> 。</p>\n\n<p><strong>叶节点</strong> 是指没有子节点的节点。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/num1tree.jpg\" style=\"width: 212px; height: 182px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2,3]\n<strong>输出：</strong>25\n<strong>解释：</strong>\n从根到叶子节点路径 <code>1->2</code> 代表数字 <code>12</code>\n从根到叶子节点路径 <code>1->3</code> 代表数字 <code>13</code>\n因此，数字总和 = 12 + 13 = <code>25</code></pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/02/19/num2tree.jpg\" style=\"width: 292px; height: 302px;\" />\n<pre>\n<strong>输入：</strong>root = [4,9,0,5,1]\n<strong>输出：</strong>1026\n<strong>解释：</strong>\n从根到叶子节点路径 <code>4->9->5</code> 代表数字 495\n从根到叶子节点路径 <code>4->9->1</code> 代表数字 491\n从根到叶子节点路径 <code>4->0</code> 代表数字 40\n因此，数字总和 = 495 + 491 + 40 = <code>1026</code>\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点的数目在范围 <code>[1, 1000]</code> 内</li>\n\t<li><code>0 <= Node.val <= 9</code></li>\n\t<li>树的深度不超过 <code>10</code></li>\n</ul>\n</div>\n</div>\n"
+  },
+  {
+   "rank": 64,
+   "freq": 99,
+   "slug": "min-stack",
+   "id": "155",
+   "title": "最小栈",
+   "difficulty": "简单",
+   "content": "<p>设计一个支持 <code>push</code> ，<code>pop</code> ，<code>top</code> 操作，并能在常数时间内检索到最小元素的栈。</p>\n\n<ul>\n\t<li><code>push(x)</code> &mdash;&mdash; 将元素 x 推入栈中。</li>\n\t<li><code>pop()</code>&nbsp;&mdash;&mdash; 删除栈顶的元素。</li>\n\t<li><code>top()</code>&nbsp;&mdash;&mdash; 获取栈顶元素。</li>\n\t<li><code>getMin()</code> &mdash;&mdash; 检索栈中的最小元素。</li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p><strong>示例:</strong></p>\n\n<pre><strong>输入：</strong>\n[&quot;MinStack&quot;,&quot;push&quot;,&quot;push&quot;,&quot;push&quot;,&quot;getMin&quot;,&quot;pop&quot;,&quot;top&quot;,&quot;getMin&quot;]\n[[],[-2],[0],[-3],[],[],[],[]]\n\n<strong>输出：</strong>\n[null,null,null,null,-3,null,0,-2]\n\n<strong>解释：</strong>\nMinStack minStack = new MinStack();\nminStack.push(-2);\nminStack.push(0);\nminStack.push(-3);\nminStack.getMin();   --&gt; 返回 -3.\nminStack.pop();\nminStack.top();      --&gt; 返回 0.\nminStack.getMin();   --&gt; 返回 -2.\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>pop</code>、<code>top</code> 和 <code>getMin</code> 操作总是在 <strong>非空栈</strong> 上调用。</li>\n</ul>\n"
+  },
+  {
+   "rank": 65,
+   "freq": 97,
+   "slug": "implement-rand10-using-rand7",
+   "id": "470",
+   "title": "用 Rand7() 实现 Rand10()",
+   "difficulty": "中等",
+   "content": "<p>已有方法&nbsp;<code>rand7</code>&nbsp;可生成 1 到 7 范围内的均匀随机整数，试写一个方法&nbsp;<code>rand10</code>&nbsp;生成 1 到 10 范围内的均匀随机整数。</p>\n\n<p>不要使用系统的&nbsp;<code>Math.random()</code>&nbsp;方法。</p>\n\n<ol>\n</ol>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre>\n<strong>输入: </strong>1\n<strong>输出: </strong>[7]\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入: </strong>2\n<strong>输出: </strong>[8,4]\n</pre>\n\n<p><strong>示例 3:</strong></p>\n\n<pre>\n<strong>输入: </strong>3\n<strong>输出: </strong>[8,1,10]\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示:</strong></p>\n\n<ol>\n\t<li><code>rand7</code>&nbsp;已定义。</li>\n\t<li>传入参数:&nbsp;<code>n</code>&nbsp;表示&nbsp;<code>rand10</code>&nbsp;的调用次数。</li>\n</ol>\n\n<p>&nbsp;</p>\n\n<p><strong>进阶:</strong></p>\n\n<ol>\n\t<li><code>rand7()</code>调用次数的&nbsp;<a href=\"https://en.wikipedia.org/wiki/Expected_value\" target=\"_blank\">期望值</a>&nbsp;是多少&nbsp;?</li>\n\t<li>你能否尽量少调用 <code>rand7()</code> ?</li>\n</ol>\n"
+  },
+  {
+   "rank": 66,
+   "freq": 97,
+   "slug": "minimum-path-sum",
+   "id": "64",
+   "title": "最小路径和",
+   "difficulty": "中等",
+   "content": "<p>给定一个包含非负整数的 <code><em>m</em> x <em>n</em></code> 网格 <code>grid</code> ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。</p>\n\n<p><strong>说明：</strong>每次只能向下或者向右移动一步。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/11/05/minpath.jpg\" style=\"width: 242px; height: 242px;\" />\n<pre>\n<strong>输入：</strong>grid = [[1,3,1],[1,5,1],[4,2,1]]\n<strong>输出：</strong>7\n<strong>解释：</strong>因为路径 1→3→1→1→1 的总和最小。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>grid = [[1,2,3],[4,5,6]]\n<strong>输出：</strong>12\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == grid.length</code></li>\n\t<li><code>n == grid[i].length</code></li>\n\t<li><code>1 <= m, n <= 200</code></li>\n\t<li><code>0 <= grid[i][j] <= 100</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 67,
+   "freq": 97,
+   "slug": "symmetric-tree",
+   "id": "101",
+   "title": "对称二叉树",
+   "difficulty": "简单",
+   "content": "<p>给定一个二叉树，检查它是否是镜像对称的。</p>\n\n<p>&nbsp;</p>\n\n<p>例如，二叉树&nbsp;<code>[1,2,2,3,4,4,3]</code> 是对称的。</p>\n\n<pre>    1\n   / \\\n  2   2\n / \\ / \\\n3  4 4  3\n</pre>\n\n<p>&nbsp;</p>\n\n<p>但是下面这个&nbsp;<code>[1,2,2,null,3,null,3]</code> 则不是镜像对称的:</p>\n\n<pre>    1\n   / \\\n  2   2\n   \\   \\\n   3    3\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>进阶：</strong></p>\n\n<p>你可以运用递归和迭代两种方法解决这个问题吗？</p>\n"
+  },
+  {
+   "rank": 68,
+   "freq": 96,
+   "slug": "combination-sum",
+   "id": "39",
+   "title": "组合总和",
+   "difficulty": "中等",
+   "content": "<p>给定一个<strong>无重复元素</strong>的正整数数组 <code>candidates</code> 和一个正整数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为目标数 <code>target</code> 的唯一组合。</p>\n\n<p><code>candidates</code> 中的数字可以无限制重复被选取。如果至少一个所选数字数量不同，则两种组合是唯一的。 </p>\n\n<p>对于给定的输入，保证和为 <code>target</code> 的唯一组合数少于 <code>150</code> 个。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入: </strong>candidates = <code>[2,3,6,7], </code>target = <code>7</code>\n<strong>输出: </strong>[[7],[2,2,3]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入: </strong>candidates = [2,3,5]<code>, </code>target = 8\n<strong>输出: </strong>[[2,2,2,2],[2,3,3],[3,5]]</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入: </strong>candidates = <code>[2], </code>target = 1\n<strong>输出: </strong>[]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入: </strong>candidates = <code>[1], </code>target = <code>1</code>\n<strong>输出: </strong>[[1]]\n</pre>\n\n<p><strong>示例 5：</strong></p>\n\n<pre>\n<strong>输入: </strong>candidates = <code>[1], </code>target = <code>2</code>\n<strong>输出: </strong>[[1,1]]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= candidates.length <= 30</code></li>\n\t<li><code>1 <= candidates[i] <= 200</code></li>\n\t<li><code>candidate</code> 中的每个元素都是独一无二的。</li>\n\t<li><code>1 <= target <= 500</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 69,
+   "freq": 95,
+   "slug": "longest-consecutive-sequence",
+   "id": "128",
+   "title": "最长连续序列",
+   "difficulty": "中等",
+   "content": "<p>给定一个未排序的整数数组 <code>nums</code> ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>\n\n<p>请你设计并实现时间复杂度为 <code>O(n)</code><em> </em>的算法解决此问题。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [100,4,200,1,3,2]\n<strong>输出：</strong>4\n<strong>解释：</strong>最长数字连续序列是 <code>[1, 2, 3, 4]。它的长度为 4。</code></pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [0,3,7,2,5,8,4,6,0,1]\n<strong>输出：</strong>9\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>0 <= nums.length <= 10<sup>5</sup></code></li>\n\t<li><code>-10<sup>9</sup> <= nums[i] <= 10<sup>9</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 70,
+   "freq": 95,
+   "slug": "max-area-of-island",
+   "id": "695",
+   "title": "岛屿的最大面积",
+   "difficulty": "中等",
+   "content": "<p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>grid</code> 。</p>\n\n<p><strong>岛屿</strong>&nbsp;是由一些相邻的&nbsp;<code>1</code>&nbsp;(代表土地) 构成的组合，这里的「相邻」要求两个 <code>1</code> 必须在 <strong>水平或者竖直的四个方向上 </strong>相邻。你可以假设&nbsp;<code>grid</code> 的四个边缘都被 <code>0</code>（代表水）包围着。</p>\n\n<p>岛屿的面积是岛上值为 <code>1</code> 的单元格的数目。</p>\n\n<p>计算并返回 <code>grid</code> 中最大的岛屿面积。如果没有岛屿，则返回面积为 <code>0</code> 。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/05/01/maxarea1-grid.jpg\" style=\"width: 500px; height: 310px;\" />\n<pre>\n<strong>输入：</strong>grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]\n<strong>输出：</strong>6\n<strong>解释：</strong>答案不应该是 <code>11</code> ，因为岛屿只能包含水平或垂直这四个方向上的 <code>1</code> 。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>grid = [[0,0,0,0,0,0,0,0]]\n<strong>输出：</strong>0\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == grid.length</code></li>\n\t<li><code>n == grid[i].length</code></li>\n\t<li><code>1 &lt;= m, n &lt;= 50</code></li>\n\t<li><code>grid[i][j]</code> 为 <code>0</code> 或 <code>1</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 71,
+   "freq": 92,
+   "slug": "maximum-depth-of-binary-tree",
+   "id": "104",
+   "title": "二叉树的最大深度",
+   "difficulty": "简单",
+   "content": "<p>给定一个二叉树，找出其最大深度。</p>\n\n<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>\n\n<p><strong>说明:</strong>&nbsp;叶子节点是指没有子节点的节点。</p>\n\n<p><strong>示例：</strong><br>\n给定二叉树 <code>[3,9,20,null,null,15,7]</code>，</p>\n\n<pre>    3\n   / \\\n  9  20\n    /  \\\n   15   7</pre>\n\n<p>返回它的最大深度&nbsp;3 。</p>\n"
+  },
+  {
+   "rank": 72,
+   "freq": 91,
+   "slug": "best-time-to-buy-and-sell-stock-ii",
+   "id": "122",
+   "title": "买卖股票的最佳时机 II",
+   "difficulty": "简单",
+   "content": "<p>给定一个数组 <code>prices</code> ，其中 <code>prices[i]</code> 是一支给定股票第 <code>i</code> 天的价格。</p>\n\n<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。</p>\n\n<p><strong>注意：</strong>你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>\n\n<p> </p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre>\n<strong>输入:</strong> prices = [7,1,5,3,6,4]\n<strong>输出:</strong> 7\n<strong>解释:</strong> 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。\n     随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入:</strong> prices = [1,2,3,4,5]\n<strong>输出:</strong> 4\n<strong>解释:</strong> 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。\n     注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。\n</pre>\n\n<p><strong>示例 3:</strong></p>\n\n<pre>\n<strong>输入:</strong> prices = [7,6,4,3,1]\n<strong>输出:</strong> 0\n<strong>解释:</strong> 在这种情况下, 没有交易完成, 所以最大利润为 0。</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= prices.length <= 3 * 10<sup>4</sup></code></li>\n\t<li><code>0 <= prices[i] <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 73,
+   "freq": 89,
+   "slug": "balanced-binary-tree",
+   "id": "110",
+   "title": "平衡二叉树",
+   "difficulty": "简单",
+   "content": "<p>给定一个二叉树，判断它是否是高度平衡的二叉树。</p>\n\n<p>本题中，一棵高度平衡二叉树定义为：</p>\n\n<blockquote>\n<p>一个二叉树<em>每个节点 </em>的左右两个子树的高度差的绝对值不超过 1 。</p>\n</blockquote>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/06/balance_1.jpg\" style=\"width: 342px; height: 221px;\" />\n<pre>\n<strong>输入：</strong>root = [3,9,20,null,null,15,7]\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/06/balance_2.jpg\" style=\"width: 452px; height: 301px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2,2,3,3,null,null,4,4]\n<strong>输出：</strong>false\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = []\n<strong>输出：</strong>true\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中的节点数在范围 <code>[0, 5000]</code> 内</li>\n\t<li><code>-10<sup>4</sup> <= Node.val <= 10<sup>4</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 74,
+   "freq": 88,
+   "slug": "maximum-product-subarray",
+   "id": "152",
+   "title": "乘积最大子数组",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组 <code>nums</code>&nbsp;，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre><strong>输入:</strong> [2,3,-2,4]\n<strong>输出:</strong> <code>6</code>\n<strong>解释:</strong>&nbsp;子数组 [2,3] 有最大乘积 6。\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre><strong>输入:</strong> [-2,0,-1]\n<strong>输出:</strong> 0\n<strong>解释:</strong>&nbsp;结果不能为 2, 因为 [-2,-1] 不是子数组。</pre>\n"
+  },
+  {
+   "rank": 75,
+   "freq": 88,
+   "slug": "maximal-square",
+   "id": "221",
+   "title": "最大正方形",
+   "difficulty": "中等",
+   "content": "<p>在一个由 <code>'0'</code> 和 <code>'1'</code> 组成的二维矩阵内，找到只包含 <code>'1'</code> 的最大正方形，并返回其面积。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/11/26/max1grid.jpg\" style=\"width: 400px; height: 319px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]\n<strong>输出：</strong>4\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/11/26/max2grid.jpg\" style=\"width: 165px; height: 165px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[\"0\",\"1\"],[\"1\",\"0\"]]\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>matrix = [[\"0\"]]\n<strong>输出：</strong>0\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == matrix.length</code></li>\n\t<li><code>n == matrix[i].length</code></li>\n\t<li><code>1 <= m, n <= 300</code></li>\n\t<li><code>matrix[i][j]</code> 为 <code>'0'</code> 或 <code>'1'</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 76,
+   "freq": 87,
+   "slug": "palindrome-linked-list",
+   "id": "234",
+   "title": "回文链表",
+   "difficulty": "简单",
+   "content": "<p>给你一个单链表的头节点 <code>head</code> ，请你判断该链表是否为回文链表。如果是，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/03/03/pal1linked-list.jpg\" style=\"width: 422px; height: 62px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,2,1]\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg\" style=\"width: 182px; height: 62px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2]\n<strong>输出：</strong>false\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点数目在范围<code>[1, 10<sup>5</sup>]</code> 内</li>\n\t<li><code>0 &lt;= Node.val &lt;= 9</code></li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p><strong>进阶：</strong>你能否用&nbsp;<code>O(n)</code> 时间复杂度和 <code>O(1)</code> 空间复杂度解决此题？</p>\n"
+  },
+  {
+   "rank": 77,
+   "freq": 85,
+   "slug": "largest-number",
+   "id": "179",
+   "title": "最大数",
+   "difficulty": "中等",
+   "content": "<p>给定一组非负整数 <code>nums</code>，重新排列每个数的顺序（每个数不可拆分）使之组成一个最大的整数。</p>\n\n<p><strong>注意：</strong>输出结果可能非常大，所以你需要返回一个字符串而不是整数。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入<code>：</code></strong><code>nums = [10,2]</code>\n<strong>输出：</strong><code>\"210\"</code></pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入<code>：</code></strong><code>nums = [3,30,34,5,9]</code>\n<strong>输出：</strong><code>\"9534330\"</code>\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入<code>：</code></strong>nums = [1]\n<strong>输出：</strong>\"1\"\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入<code>：</code></strong>nums = [10]\n<strong>输出：</strong>\"10\"\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 100</code></li>\n\t<li><code>0 <= nums[i] <= 10<sup>9</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 78,
+   "freq": 85,
+   "slug": "longest-common-prefix",
+   "id": "14",
+   "title": "最长公共前缀",
+   "difficulty": "简单",
+   "content": "<p>编写一个函数来查找字符串数组中的最长公共前缀。</p>\n\n<p>如果不存在公共前缀，返回空字符串&nbsp;<code>\"\"</code>。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>strs = [\"flower\",\"flow\",\"flight\"]\n<strong>输出：</strong>\"fl\"\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>strs = [\"dog\",\"racecar\",\"car\"]\n<strong>输出：</strong>\"\"\n<strong>解释：</strong>输入不存在公共前缀。</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= strs.length &lt;= 200</code></li>\n\t<li><code>0 &lt;= strs[i].length &lt;= 200</code></li>\n\t<li><code>strs[i]</code> 仅由小写英文字母组成</li>\n</ul>\n"
+  },
+  {
+   "rank": 79,
+   "freq": 85,
+   "slug": "rotate-image",
+   "id": "48",
+   "title": "旋转图像",
+   "difficulty": "中等",
+   "content": "<p>给定一个 <em>n </em>× <em>n</em> 的二维矩阵 <code>matrix</code> 表示一个图像。请你将图像顺时针旋转 90 度。</p>\n\n<p>你必须在<strong><a href=\"https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95\" target=\"_blank\"> 原地</a></strong> 旋转图像，这意味着你需要直接修改输入的二维矩阵。<strong>请不要 </strong>使用另一个矩阵来旋转图像。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/08/28/mat1.jpg\" style=\"width: 642px; height: 242px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[1,2,3],[4,5,6],[7,8,9]]\n<strong>输出：</strong>[[7,4,1],[8,5,2],[9,6,3]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/08/28/mat2.jpg\" style=\"width: 800px; height: 321px;\" />\n<pre>\n<strong>输入：</strong>matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]\n<strong>输出：</strong>[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>matrix = [[1]]\n<strong>输出：</strong>[[1]]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>matrix = [[1,2],[3,4]]\n<strong>输出：</strong>[[3,1],[4,2]]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>matrix.length == n</code></li>\n\t<li><code>matrix[i].length == n</code></li>\n\t<li><code>1 <= n <= 20</code></li>\n\t<li><code>-1000 <= matrix[i][j] <= 1000</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 80,
+   "freq": 85,
+   "slug": "search-a-2d-matrix-ii",
+   "id": "240",
+   "title": "搜索二维矩阵 II",
+   "difficulty": "中等",
+   "content": "<p>编写一个高效的算法来搜索&nbsp;<code><em>m</em>&nbsp;x&nbsp;<em>n</em></code>&nbsp;矩阵 <code>matrix</code> 中的一个目标值 <code>target</code> 。该矩阵具有以下特性：</p>\n\n<ul>\n\t<li>每行的元素从左到右升序排列。</li>\n\t<li>每列的元素从上到下升序排列。</li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p><b>示例 1：</b></p>\n<img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2020/11/25/searchgrid2.jpg\" />\n<pre>\n<b>输入：</b>matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5\n<b>输出：</b>true\n</pre>\n\n<p><b>示例 2：</b></p>\n<img alt=\"\" src=\"https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2020/11/25/searchgrid.jpg\" />\n<pre>\n<b>输入：</b>matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20\n<b>输出：</b>false\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>m == matrix.length</code></li>\n\t<li><code>n == matrix[i].length</code></li>\n\t<li><code>1 &lt;= n, m &lt;= 300</code></li>\n\t<li><code>-10<sup>9</sup>&nbsp;&lt;= matrix[i][j] &lt;= 10<sup>9</sup></code></li>\n\t<li>每行的所有元素从左到右升序排列</li>\n\t<li>每列的所有元素从上到下升序排列</li>\n\t<li><code>-10<sup>9</sup>&nbsp;&lt;= target &lt;= 10<sup>9</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 81,
+   "freq": 84,
+   "slug": "maximum-width-of-binary-tree",
+   "id": "662",
+   "title": "二叉树最大宽度",
+   "difficulty": "中等",
+   "content": "<p>给定一个二叉树，编写一个函数来获取这个树的最大宽度。树的宽度是所有层中的最大宽度。这个二叉树与<strong>满二叉树（full binary tree）</strong>结构相同，但一些节点为空。</p>\n\n<p>每一层的宽度被定义为两个端点（该层最左和最右的非空节点，两端点间的<code>null</code>节点也计入长度）之间的长度。</p>\n\n<p><strong>示例 1:</strong></p>\n\n<pre>\n<strong>输入:</strong> \n\n           1\n         /   \\\n        3     2\n       / \\     \\  \n      5   3     9 \n\n<strong>输出:</strong> 4\n<strong>解释:</strong> 最大值出现在树的第 3 层，宽度为 4 (5,3,null,9)。\n</pre>\n\n<p><strong>示例 2:</strong></p>\n\n<pre>\n<strong>输入:</strong> \n\n          1\n         /  \n        3    \n       / \\       \n      5   3     \n\n<strong>输出:</strong> 2\n<strong>解释:</strong> 最大值出现在树的第 3 层，宽度为 2 (5,3)。\n</pre>\n\n<p><strong>示例&nbsp;3:</strong></p>\n\n<pre>\n<strong>输入:</strong> \n\n          1\n         / \\\n        3   2 \n       /        \n      5      \n\n<strong>输出:</strong> 2\n<strong>解释:</strong> 最大值出现在树的第 2 层，宽度为 2 (3,2)。\n</pre>\n\n<p><strong>示例 4:</strong></p>\n\n<pre>\n<strong>输入:</strong> \n\n          1\n         / \\\n        3   2\n       /     \\  \n      5       9 \n     /         \\\n    6           7\n<strong>输出:</strong> 8\n<strong>解释:</strong> 最大值出现在树的第 4 层，宽度为 8 (6,null,null,null,null,null,null,7)。\n</pre>\n\n<p><strong>注意:</strong> 答案在32位有符号整数的表示范围内。</p>\n"
+  },
+  {
+   "rank": 82,
+   "freq": 84,
+   "slug": "validate-binary-search-tree",
+   "id": "98",
+   "title": "验证二叉搜索树",
+   "difficulty": "中等",
+   "content": "<p>给你一个二叉树的根节点 <code>root</code> ，判断其是否是一个有效的二叉搜索树。</p>\n\n<p><strong>有效</strong> 二叉搜索树定义如下：</p>\n\n<ul>\n\t<li>节点的左子树只包含<strong> 小于 </strong>当前节点的数。</li>\n\t<li>节点的右子树只包含 <strong>大于</strong> 当前节点的数。</li>\n\t<li>所有左子树和右子树自身必须也是二叉搜索树。</li>\n</ul>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/12/01/tree1.jpg\" style=\"width: 302px; height: 182px;\" />\n<pre>\n<strong>输入：</strong>root = [2,1,3]\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/12/01/tree2.jpg\" style=\"width: 422px; height: 292px;\" />\n<pre>\n<strong>输入：</strong>root = [5,1,4,null,null,3,6]\n<strong>输出：</strong>false\n<strong>解释：</strong>根节点的值是 5 ，但是右子节点的值是 4 。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点数目范围在<code>[1, 10<sup>4</sup>]</code> 内</li>\n\t<li><code>-2<sup>31</sup> &lt;= Node.val &lt;= 2<sup>31</sup> - 1</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 83,
+   "freq": 84,
+   "slug": "binary-tree-preorder-traversal",
+   "id": "144",
+   "title": "二叉树的前序遍历",
+   "difficulty": "简单",
+   "content": "<p>给你二叉树的根节点 <code>root</code> ，返回它节点值的 <strong>前序</strong><em> </em>遍历。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg\" style=\"width: 202px; height: 324px;\" />\n<pre>\n<strong>输入：</strong>root = [1,null,2,3]\n<strong>输出：</strong>[1,2,3]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = [1]\n<strong>输出：</strong>[1]\n</pre>\n\n<p><strong>示例 4：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_5.jpg\" style=\"width: 202px; height: 202px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2]\n<strong>输出：</strong>[1,2]\n</pre>\n\n<p><strong>示例 5：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/09/15/inorder_4.jpg\" style=\"width: 202px; height: 202px;\" />\n<pre>\n<strong>输入：</strong>root = [1,null,2]\n<strong>输出：</strong>[1,2]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点数目在范围 <code>[0, 100]</code> 内</li>\n\t<li><code>-100 <= Node.val <= 100</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>递归算法很简单，你可以通过迭代算法完成吗？</p>\n"
+  },
+  {
+   "rank": 84,
+   "freq": 82,
+   "slug": "diameter-of-binary-tree",
+   "id": "543",
+   "title": "二叉树的直径",
+   "difficulty": "简单",
+   "content": "<p>给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过也可能不穿过根结点。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 :</strong><br>\n给定二叉树</p>\n\n<pre>          1\n         / \\\n        2   3\n       / \\     \n      4   5    \n</pre>\n\n<p>返回&nbsp;<strong>3</strong>, 它的长度是路径 [4,2,1,3] 或者&nbsp;[5,2,1,3]。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>注意：</strong>两结点之间的路径长度是以它们之间边的数目表示。</p>\n"
+  },
+  {
+   "rank": 85,
+   "freq": 81,
+   "slug": "subarray-sum-equals-k",
+   "id": "560",
+   "title": "和为K的子数组",
+   "difficulty": "中等",
+   "content": "<p>给你一个整数数组 <code>nums</code> 和一个整数&nbsp;<code>k</code> ，请你统计并返回该数组中和为&nbsp;<code>k</code><strong>&nbsp;</strong>的连续子数组的个数。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,1,1], k = 2\n<strong>输出：</strong>2\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = [1,2,3], k = 3\n<strong>输出：</strong>2\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= nums.length &lt;= 2 * 10<sup>4</sup></code></li>\n\t<li><code>-1000 &lt;= nums[i] &lt;= 1000</code></li>\n\t<li><code>-10<sup>7</sup> &lt;= k &lt;= 10<sup>7</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 86,
+   "freq": 80,
+   "slug": "find-peak-element",
+   "id": "162",
+   "title": "寻找峰值",
+   "difficulty": "中等",
+   "content": "<p>峰值元素是指其值严格大于左右相邻值的元素。</p>\n\n<p>给你一个整数数组&nbsp;<code>nums</code>，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回 <strong>任何一个峰值</strong> 所在位置即可。</p>\n\n<p>你可以假设&nbsp;<code>nums[-1] = nums[n] = -∞</code> 。</p>\n\n<p>你必须实现时间复杂度为 <code>O(log n)</code><em> </em>的算法来解决此问题。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = <code>[1,2,3,1]</code>\n<strong>输出：</strong>2\n<strong>解释：</strong>3 是峰值元素，你的函数应该返回其索引 2。</pre>\n\n<p><strong>示例&nbsp;2：</strong></p>\n\n<pre>\n<strong>输入：</strong>nums = <code>[</code>1,2,1,3,5,6,4]\n<strong>输出：</strong>1 或 5 \n<strong>解释：</strong>你的函数可以返回索引 1，其峰值元素为 2；\n&nbsp;    或者返回索引 5， 其峰值元素为 6。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= nums.length &lt;= 1000</code></li>\n\t<li><code>-2<sup>31</sup> &lt;= nums[i] &lt;= 2<sup>31</sup> - 1</code></li>\n\t<li>对于所有有效的 <code>i</code> 都有 <code>nums[i] != nums[i + 1]</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 87,
+   "freq": 78,
+   "slug": "path-sum-ii",
+   "id": "113",
+   "title": "路径总和 II",
+   "difficulty": "中等",
+   "content": "<p>给你二叉树的根节点 <code>root</code> 和一个整数目标和 <code>targetSum</code> ，找出所有 <strong>从根节点到叶子节点</strong> 路径总和等于给定目标和的路径。</p>\n\n<p><strong>叶子节点</strong> 是指没有子节点的节点。</p>\n\n<div class=\"original__bRMd\">\n<div>\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/18/pathsumii1.jpg\" style=\"width: 500px; height: 356px;\" />\n<pre>\n<strong>输入：</strong>root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\n<strong>输出：</strong>[[5,4,11,2],[5,8,4,5]]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/18/pathsum2.jpg\" style=\"width: 212px; height: 181px;\" />\n<pre>\n<strong>输入：</strong>root = [1,2,3], targetSum = 5\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = [1,2], targetSum = 0\n<strong>输出：</strong>[]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点总数在范围 <code>[0, 5000]</code> 内</li>\n\t<li><code>-1000 <= Node.val <= 1000</code></li>\n\t<li><code>-1000 <= targetSum <= 1000</code></li>\n</ul>\n</div>\n</div>\n"
+  },
+  {
+   "rank": 88,
+   "freq": 78,
+   "slug": "unique-paths",
+   "id": "62",
+   "title": "不同路径",
+   "difficulty": "中等",
+   "content": "<p>一个机器人位于一个 <code>m x n</code><em> </em>网格的左上角 （起始点在下图中标记为 “Start” ）。</p>\n\n<p>机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。</p>\n\n<p>问总共有多少条不同的路径？</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img src=\"https://assets.leetcode.com/uploads/2018/10/22/robot_maze.png\" />\n<pre>\n<strong>输入：</strong>m = 3, n = 7\n<strong>输出：</strong>28</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>m = 3, n = 2\n<strong>输出：</strong>3\n<strong>解释：</strong>\n从左上角开始，总共有 3 条路径可以到达右下角。\n1. 向右 -> 向下 -> 向下\n2. 向下 -> 向下 -> 向右\n3. 向下 -> 向右 -> 向下\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>m = 7, n = 3\n<strong>输出：</strong>28\n</pre>\n\n<p><strong>示例 4：</strong></p>\n\n<pre>\n<strong>输入：</strong>m = 3, n = 3\n<strong>输出：</strong>6</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= m, n <= 100</code></li>\n\t<li>题目数据保证答案小于等于 <code>2 * 10<sup>9</sup></code></li>\n</ul>\n"
+  },
+  {
+   "rank": 89,
+   "freq": 76,
+   "slug": "house-robber",
+   "id": "198",
+   "title": "打家劫舍",
+   "difficulty": "中等",
+   "content": "<p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警</strong>。</p>\n\n<p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong> 不触动警报装置的情况下 </strong>，一夜之内能够偷窃到的最高金额。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>[1,2,3,1]\n<strong>输出：</strong>4\n<strong>解释：</strong>偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。\n     偷窃到的最高金额 = 1 + 3 = 4 。</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>[2,7,9,3,1]\n<strong>输出：</strong>12\n<strong>解释：</strong>偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。\n     偷窃到的最高金额 = 2 + 9 + 1 = 12 。\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= nums.length <= 100</code></li>\n\t<li><code>0 <= nums[i] <= 400</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 90,
+   "freq": 74,
+   "slug": "minimum-size-subarray-sum",
+   "id": "209",
+   "title": "长度最小的子数组",
+   "difficulty": "中等",
+   "content": "<p>给定一个含有 <code>n</code><strong> </strong>个正整数的数组和一个正整数 <code>target</code><strong> 。</strong></p>\n\n<p>找出该数组中满足其和<strong> </strong><code>≥ target</code><strong> </strong>的长度最小的 <strong>连续子数组</strong> <code>[nums<sub>l</sub>, nums<sub>l+1</sub>, ..., nums<sub>r-1</sub>, nums<sub>r</sub>]</code> ，并返回其长度<strong>。</strong>如果不存在符合条件的子数组，返回 <code>0</code> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>target = 7, nums = [2,3,1,2,4,3]\n<strong>输出：</strong>2\n<strong>解释：</strong>子数组 <code>[4,3]</code> 是该条件下的长度最小的子数组。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>target = 4, nums = [1,4,4]\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>target = 11, nums = [1,1,1,1,1,1,1,1]\n<strong>输出：</strong>0\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= target <= 10<sup>9</sup></code></li>\n\t<li><code>1 <= nums.length <= 10<sup>5</sup></code></li>\n\t<li><code>1 <= nums[i] <= 10<sup>5</sup></code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>如果你已经实现<em> </em><code>O(n)</code> 时间复杂度的解法, 请尝试设计一个 <code>O(n log(n))</code> 时间复杂度的解法。</li>\n</ul>\n"
+  },
+  {
+   "rank": 91,
+   "freq": 73,
+   "slug": "swap-nodes-in-pairs",
+   "id": "24",
+   "title": "两两交换链表中的节点",
+   "difficulty": "中等",
+   "content": "<p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>\n\n<p><strong>你不能只是单纯的改变节点内部的值</strong>，而是需要实际的进行节点交换。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2020/10/03/swap_ex1.jpg\" style=\"width: 422px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,2,3,4]\n<strong>输出：</strong>[2,1,4,3]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = []\n<strong>输出：</strong>[]\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>head = [1]\n<strong>输出：</strong>[1]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点的数目在范围 <code>[0, 100]</code> 内</li>\n\t<li><code>0 <= Node.val <= 100</code></li>\n</ul>\n\n<p> </p>\n\n<p><strong>进阶：</strong>你能在不修改链表节点值的情况下解决这个问题吗?（也就是说，仅修改节点本身。）</p>\n"
+  },
+  {
+   "rank": 92,
+   "freq": 72,
+   "slug": "path-sum",
+   "id": "112",
+   "title": "路径总和",
+   "difficulty": "简单",
+   "content": "<p>给你二叉树的根节点 <code>root</code> 和一个表示目标和的整数 <code>targetSum</code> ，判断该树中是否存在 <strong>根节点到叶子节点</strong> 的路径，这条路径上所有节点值相加等于目标和 <code>targetSum</code> 。</p>\n\n<p><strong>叶子节点</strong> 是指没有子节点的节点。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/18/pathsum1.jpg\" style=\"width: 500px; height: 356px;\" />\n<pre>\n<strong>输入：</strong>root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22\n<strong>输出：</strong>true\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/18/pathsum2.jpg\" />\n<pre>\n<strong>输入：</strong>root = [1,2,3], targetSum = 5\n<strong>输出：</strong>false\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>root = [1,2], targetSum = 0\n<strong>输出：</strong>false\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>树中节点的数目在范围 <code>[0, 5000]</code> 内</li>\n\t<li><code>-1000 <= Node.val <= 1000</code></li>\n\t<li><code>-1000 <= targetSum <= 1000</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 93,
+   "freq": 71,
+   "slug": "maximum-length-of-repeated-subarray",
+   "id": "718",
+   "title": "最长重复子数组",
+   "difficulty": "中等",
+   "content": "<p>给两个整数数组&nbsp;<code>A</code>&nbsp;和&nbsp;<code>B</code>&nbsp;，返回两个数组中公共的、长度最长的子数组的长度。</p>\n\n<p>&nbsp;</p>\n\n<p><strong>示例：</strong></p>\n\n<pre><strong>输入：</strong>\nA: [1,2,3,2,1]\nB: [3,2,1,4,7]\n<strong>输出：</strong>3\n<strong>解释：</strong>\n长度最长的公共子数组是 [3, 2, 1] 。\n</pre>\n\n<p>&nbsp;</p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 &lt;= len(A), len(B) &lt;= 1000</code></li>\n\t<li><code>0 &lt;= A[i], B[i] &lt; 100</code></li>\n</ul>\n"
+  },
+  {
+   "rank": 94,
+   "freq": 71,
+   "slug": "word-break",
+   "id": "139",
+   "title": "单词拆分",
+   "difficulty": "中等",
+   "content": "<p>给定一个<strong>非空</strong>字符串 <em>s</em> 和一个包含<strong>非空</strong>单词的列表 <em>wordDict</em>，判定&nbsp;<em>s</em> 是否可以被空格拆分为一个或多个在字典中出现的单词。</p>\n\n<p><strong>说明：</strong></p>\n\n<ul>\n\t<li>拆分时可以重复使用字典中的单词。</li>\n\t<li>你可以假设字典中没有重复的单词。</li>\n</ul>\n\n<p><strong>示例 1：</strong></p>\n\n<pre><strong>输入:</strong> s = &quot;leetcode&quot;, wordDict = [&quot;leet&quot;, &quot;code&quot;]\n<strong>输出:</strong> true\n<strong>解释:</strong> 返回 true 因为 &quot;leetcode&quot; 可以被拆分成 &quot;leet code&quot;。\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre><strong>输入:</strong> s = &quot;applepenapple&quot;, wordDict = [&quot;apple&quot;, &quot;pen&quot;]\n<strong>输出:</strong> true\n<strong>解释:</strong> 返回 true 因为 <code>&quot;</code>applepenapple<code>&quot;</code> 可以被拆分成 <code>&quot;</code>apple pen apple<code>&quot;</code>。\n&nbsp;    注意你可以重复使用字典中的单词。\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre><strong>输入:</strong> s = &quot;catsandog&quot;, wordDict = [&quot;cats&quot;, &quot;dog&quot;, &quot;sand&quot;, &quot;and&quot;, &quot;cat&quot;]\n<strong>输出:</strong> false\n</pre>\n"
+  },
+  {
+   "rank": 95,
+   "freq": 69,
+   "slug": "remove-duplicates-from-sorted-list",
+   "id": "83",
+   "title": "删除排序链表中的重复元素",
+   "difficulty": "简单",
+   "content": "<p>存在一个按升序排列的链表，给你这个链表的头节点 <code>head</code> ，请你删除所有重复的元素，使每个元素 <strong>只出现一次</strong> 。</p>\n\n<p>返回同样按升序排列的结果链表。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/04/list1.jpg\" style=\"width: 302px; height: 242px;\" />\n<pre>\n<strong>输入：</strong>head = [1,1,2]\n<strong>输出：</strong>[1,2]\n</pre>\n\n<p><strong>示例 2：</strong></p>\n<img alt=\"\" src=\"https://assets.leetcode.com/uploads/2021/01/04/list2.jpg\" style=\"width: 542px; height: 222px;\" />\n<pre>\n<strong>输入：</strong>head = [1,1,2,3,3]\n<strong>输出：</strong>[1,2,3]\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li>链表中节点数目在范围 <code>[0, 300]</code> 内</li>\n\t<li><code>-100 <= Node.val <= 100</code></li>\n\t<li>题目数据保证链表已经按升序排列</li>\n</ul>\n"
+  },
+  {
+   "rank": 96,
+   "freq": 69,
+   "slug": "basic-calculator-ii",
+   "id": "227",
+   "title": "基本计算器 II",
+   "difficulty": "中等",
+   "content": "<p>给你一个字符串表达式 <code>s</code> ，请你实现一个基本计算器来计算并返回它的值。</p>\n\n<p>整数除法仅保留整数部分。</p>\n\n<div class=\"original__bRMd\">\n<div>\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \"3+2*2\"\n<strong>输出：</strong>7\n</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \" 3/2 \"\n<strong>输出：</strong>1\n</pre>\n\n<p><strong>示例 3：</strong></p>\n\n<pre>\n<strong>输入：</strong>s = \" 3+5 / 2 \"\n<strong>输出：</strong>5\n</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= s.length <= 3 * 10<sup>5</sup></code></li>\n\t<li><code>s</code> 由整数和算符 <code>('+', '-', '*', '/')</code> 组成，中间由一些空格隔开</li>\n\t<li><code>s</code> 表示一个 <strong>有效表达式</strong></li>\n\t<li>表达式中的所有整数都是非负整数，且在范围 <code>[0, 2<sup>31</sup> - 1]</code> 内</li>\n\t<li>题目数据保证答案是一个 <strong>32-bit 整数</strong></li>\n</ul>\n</div>\n</div>\n"
+  },
+  {
+   "rank": 97,
+   "freq": 68,
+   "slug": "course-schedule",
+   "id": "207",
+   "title": "课程表",
+   "difficulty": "中等",
+   "content": "<p>你这个学期必须选修 <code>numCourses</code> 门课程，记为 <code>0</code> 到 <code>numCourses - 1</code> 。</p>\n\n<p>在选修某些课程之前需要一些先修课程。 先修课程按数组 <code>prerequisites</code> 给出，其中 <code>prerequisites[i] = [a<sub>i</sub>, b<sub>i</sub>]</code> ，表示如果要学习课程 <code>a<sub>i</sub></code> 则 <strong>必须</strong> 先学习课程  <code>b<sub>i</sub></code><sub> </sub>。</p>\n\n<ul>\n\t<li>例如，先修课程对 <code>[0, 1]</code> 表示：想要学习课程 <code>0</code> ，你需要先完成课程 <code>1</code> 。</li>\n</ul>\n\n<p>请你判断是否可能完成所有课程的学习？如果可以，返回 <code>true</code> ；否则，返回 <code>false</code> 。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>numCourses = 2, prerequisites = [[1,0]]\n<strong>输出：</strong>true\n<strong>解释：</strong>总共有 2 门课程。学习课程 1 之前，你需要完成课程 0 。这是可能的。</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>numCourses = 2, prerequisites = [[1,0],[0,1]]\n<strong>输出：</strong>false\n<strong>解释：</strong>总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。</pre>\n\n<p> </p>\n\n<p><strong>提示：</strong></p>\n\n<ul>\n\t<li><code>1 <= numCourses <= 10<sup>5</sup></code></li>\n\t<li><code>0 <= prerequisites.length <= 5000</code></li>\n\t<li><code>prerequisites[i].length == 2</code></li>\n\t<li><code>0 <= a<sub>i</sub>, b<sub>i</sub> < numCourses</code></li>\n\t<li><code>prerequisites[i]</code> 中的所有课程对 <strong>互不相同</strong></li>\n</ul>\n"
+  },
+  {
+   "rank": 98,
+   "freq": 68,
+   "slug": "move-zeroes",
+   "id": "283",
+   "title": "移动零",
+   "difficulty": "简单",
+   "content": "<p>给定一个数组 <code>nums</code>，编写一个函数将所有 <code>0</code> 移动到数组的末尾，同时保持非零元素的相对顺序。</p>\n\n<p><strong>示例:</strong></p>\n\n<pre><strong>输入:</strong> <code>[0,1,0,3,12]</code>\n<strong>输出:</strong> <code>[1,3,12,0,0]</code></pre>\n\n<p><strong>说明</strong>:</p>\n\n<ol>\n\t<li>必须在原数组上操作，不能拷贝额外的数组。</li>\n\t<li>尽量减少操作次数。</li>\n</ol>\n"
+  },
+  {
+   "rank": 99,
+   "freq": 68,
+   "slug": "invert-binary-tree",
+   "id": "226",
+   "title": "翻转二叉树",
+   "difficulty": "简单",
+   "content": "<p>翻转一棵二叉树。</p>\n\n<p><strong>示例：</strong></p>\n\n<p>输入：</p>\n\n<pre>     4\n   /   \\\n  2     7\n / \\   / \\\n1   3 6   9</pre>\n\n<p>输出：</p>\n\n<pre>     4\n   /   \\\n  7     2\n / \\   / \\\n9   6 3   1</pre>\n\n<p><strong>备注:</strong><br>\n这个问题是受到 <a href=\"https://twitter.com/mxcl\" target=\"_blank\">Max Howell </a>的 <a href=\"https://twitter.com/mxcl/status/608682016205344768\" target=\"_blank\">原问题</a> 启发的 ：</p>\n\n<blockquote>谷歌：我们90％的工程师使用您编写的软件(Homebrew)，但是您却无法在面试时在白板上写出翻转二叉树这道题，这太糟糕了。</blockquote>\n"
+  },
+  {
+   "rank": 100,
+   "freq": 68,
+   "slug": "majority-element",
+   "id": "169",
+   "title": "多数元素",
+   "difficulty": "简单",
+   "content": "<p>给定一个大小为 <em>n </em>的数组，找到其中的多数元素。多数元素是指在数组中出现次数 <strong>大于</strong> <code>⌊ n/2 ⌋</code> 的元素。</p>\n\n<p>你可以假设数组是非空的，并且给定的数组总是存在多数元素。</p>\n\n<p> </p>\n\n<p><strong>示例 1：</strong></p>\n\n<pre>\n<strong>输入：</strong>[3,2,3]\n<strong>输出：</strong>3</pre>\n\n<p><strong>示例 2：</strong></p>\n\n<pre>\n<strong>输入：</strong>[2,2,1,1,1,2,2]\n<strong>输出：</strong>2\n</pre>\n\n<p> </p>\n\n<p><strong>进阶：</strong></p>\n\n<ul>\n\t<li>尝试设计时间复杂度为 O(n)、空间复杂度为 O(1) 的算法解决此问题。</li>\n</ul>\n"
+  }
+ ]
+}

@@ -41,15 +41,15 @@ async function autoReview({ id, slug, snap }, tabId) {
   const r = await chrome.runtime.sendMessage({ type: "reviewInPanel", tabId, slug }).catch(() => null);
   if (r?.taken) return;
 
-  const conv = await loadConv(slug); // 放进这道题当前的会话
-  const context = conv.session ? snap.markdown.replace(/## 题目描述[\s\S]*?(?=## 我的代码)/, "") : snap.markdown;
+  const conv = await loadConv(); // 放进当前会话
+  const context = contextFor(conv, slug, snap.markdown);
   const { model } = await chrome.storage.local.get("model");
   let text = "", err = "";
   try {
     const res = await fetch(`${SERVER}/ask`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question: REVIEW_PROMPT, context, session: conv.session, slug, title: snap.title, model: model || null, auto: true, effort: "low" }),
+      body: JSON.stringify({ question: REVIEW_PROMPT, context, session: conv.session, conv: conv.id, slug, title: snap.title, model: model || null, auto: true, effort: "low" }),
     });
     for (const line of (await res.text()).split("\n")) {
       if (!line.trim()) continue;
@@ -63,7 +63,8 @@ async function autoReview({ id, slug, snap }, tabId) {
   }
   if (!text) return; // 失败就算了，不打扰
   conv.msgs.push({ role: "user", text: REVIEW_LABEL }, { role: "assistant", text });
-  await saveConv(slug, conv);
+  Object.assign(conv, { slug, title: snap.title });
+  await saveConv(conv);
   chrome.action.setBadgeText({ tabId, text: "1" }).catch(() => {});
   chrome.action.setBadgeBackgroundColor({ color: "#c96442" }).catch(() => {});
 }

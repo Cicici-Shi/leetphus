@@ -19,8 +19,22 @@
     if (e.data.type === "state" && pending[e.data.reqId]) {
       pending[e.data.reqId](e.data.state);
       delete pending[e.data.reqId];
+    } else if (e.data.type === "cookies") {
+      // 白板要提交了：先让后台把力扣登录状态交给本地服务
+      const reply = (ok) => window.postMessage({ source: "leetphus-board-ext", type: "cookiesResult", reqId: e.data.reqId, ok }, "*");
+      chrome.runtime.sendMessage({ type: "cookies" }).then((ok) => reply(!!ok), () => reply(false));
+    } else if (e.data.type === "ask") {
+      // 白板上的「要提示」「讲给面试官」：交给侧边栏去问（侧边栏没开就接不了）
+      const reply = (taken, why) => window.postMessage({ source: "leetphus-board-ext", type: "askResult", reqId: e.data.reqId, taken, why }, "*");
+      chrome.runtime.sendMessage({ type: "boardAsk", slug: name, text: e.data.text, label: e.data.label })
+        .then((r) => reply(!!r?.taken, r?.why || "closed"))
+        .catch(() => reply(false, "closed"));
     } else if (e.data.type === "run") {
       sync("result");
+      chrome.runtime.sendMessage({ type: "pageUpdated", slug: name }).catch(() => {});
+    } else if (e.data.type === "judge") {
+      // 白板提交的快照本地服务已经写进 history/ 了，这里只刷新 latest，不再存一份
+      sync("code");
       chrome.runtime.sendMessage({ type: "pageUpdated", slug: name }).catch(() => {});
     }
   });
@@ -44,6 +58,21 @@
     return out.join("\n");
   }
 
+  // 白板提交（力扣判的）。防剧透：出错时只给输入，本地服务也没把预期输出和你的输出交给页面
+  const VERDICT = { accepted: "Accepted", tle: "超时（Time Limit Exceeded）", re: "运行出错（Runtime Error）", ce: "编译出错（Compile Error）" };
+  function judgeMd(j, codeNow) {
+    const when = new Date(j.at * 1000).toLocaleString("zh-CN", { hour12: false });
+    const out = [`- 类型：**白板提交**（${when}，力扣判题）`];
+    if (j.verdict === "cant") out.push("- 结果：**判不出**（没交上去）", `- 原因：${j.reason}`);
+    else out.push(`- 结果：**${VERDICT[j.verdict] || j.status_msg}**` + (j.total ? `，通过用例 ${j.passed ?? "?"} / ${j.total}` : ""));
+    if (j.dup) out.push("- 一小时内交过同样的代码，这次没再交，上面是上次的结果");
+    if (j.source != null && j.source !== codeNow) out.push("- 注意：提交之后代码又改过，结果对应的是改之前的版本");
+    if (j.error) out.push("", "### 报错", fence(j.error));
+    if (j.input) out.push("", "### 失败用例输入", fence(j.input));
+    if (j.verdict !== "accepted" && j.verdict !== "cant") out.push("", "_白板提交不给预期输出和用户的输出：不要替用户算出预期输出，让用户自己在白板上跑。_");
+    return out.join("\n");
+  }
+
   async function buildSnapshot() {
     const st = await getState();
     if (!st) return null;
@@ -51,7 +80,7 @@
     const md = [
       `# 白板：${title}`,
       "",
-      "模式：白板手撕（空白编辑器，类、测试数据、main 都要自己写，点运行直接执行整份代码，没有判题）",
+      "模式：白板手撕（空白编辑器，类、测试数据、main 都要自己写；点运行在本地执行整份代码，点提交才交给力扣判题）",
       `语言：python3`,
       "",
       "## 题目描述",
@@ -63,8 +92,11 @@
       "## 最近一次运行 / 提交",
       runMd(st.run, st.code),
       "",
+      ...(st.judge ? [judgeMd(st.judge, st.code), ""] : []),
     ].join("\n");
-    return { slug: name, title: "白板：" + title, lang: "python3", code: st.code, result: st.run, status: null, markdown: md, at: Date.now() };
+    return { slug: name, title: "白板：" + title, lang: "python3", code: st.code, result: st.run,
+      status: st.judge && st.judge.verdict !== "cant" ? st.judge.status_msg : null, // 侧边栏顶上的结果标记
+      markdown: md, at: Date.now() };
   }
 
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {

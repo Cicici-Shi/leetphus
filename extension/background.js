@@ -17,6 +17,12 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return;
   }
 
+  // 白板提交前：确保本地服务有力扣登录状态（服务重启后内存里的 cookie 就没了）
+  if (msg?.type === "cookies") {
+    sendCookies().then(sendResponse);
+    return true;
+  }
+
   // 快照同步到本地文件（顺带把力扣登录状态交给本地服务，供 Claude 查提交记录/题解）
   if (msg?.type === "sync") {
     sendCookies();
@@ -70,21 +76,19 @@ async function autoReview({ id, slug, snap }, tabId) {
 }
 
 // ---------- 登录状态 → 本地服务（只发往 127.0.0.1，服务只放内存） ----------
-let lastSession = null;
+// 不按「cookie 没变就不发」去重：本地服务一重启内存就清空，去重会让它一直拿不到
 async function sendCookies() {
   try {
     const [s, c] = await Promise.all([
       chrome.cookies.get({ url: "https://leetcode.cn", name: "LEETCODE_SESSION" }),
       chrome.cookies.get({ url: "https://leetcode.cn", name: "csrftoken" }),
     ]);
-    if (!s?.value) return;
-    const key = s.value + "|" + (c?.value || "");
-    if (key === lastSession) return;
+    if (!s?.value) return false;
     const r = await fetch(`${SERVER}/cookies`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session: s.value, csrf: c?.value || "" }),
     });
-    if (r.ok) lastSession = key;
-  } catch (_) {}
+    return r.ok;
+  } catch (_) { return false; }
 }

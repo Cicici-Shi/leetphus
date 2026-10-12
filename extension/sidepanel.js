@@ -163,10 +163,11 @@ function setBusy(b) {
 
 async function ask(opts = {}) {
   if (ctrl) { if (!opts.auto) ctrl.abort(); return; }
-  const q = opts.auto ? REVIEW_PROMPT : $("#q").value.trim();
+  // opts.text：白板按钮代问（提示档位、口述），对话里只显示 opts.label
+  const q = opts.auto ? REVIEW_PROMPT : opts.text || $("#q").value.trim();
   if (!q || !slug) return;
-  if (!opts.auto) $("#q").value = "";
-  const shown = opts.auto ? REVIEW_LABEL : q;
+  if (!opts.auto && !opts.text) $("#q").value = "";
+  const shown = opts.auto ? REVIEW_LABEL : opts.label || q;
   const mySlug = slug;
   scrollDown(true); // 自己发的问题：回到底部
   add("u", esc(shown));
@@ -467,6 +468,12 @@ chrome.windows.onFocusChanged.addListener(refreshTab);
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg?.type === "pageUpdated" && sender.tab?.id === tabId) refreshTab();
   // 后台问：这次提交通过的自动检查，侧边栏能不能接？（正在看这道题且空闲才接）
+  if (msg?.type === "boardAsk") {
+    const mine = sender.tab?.id === tabId && msg.slug === slug;
+    const why = !mine ? "other" : ctrl ? "busy" : $("#log").hidden ? "hidden" : null;
+    sendResponse({ taken: !why, why });
+    if (!why) ask({ text: msg.text, label: msg.label });
+  }
   if (msg?.type === "reviewInPanel") {
     const take = msg.tabId === tabId && msg.slug === slug && !ctrl && !$("#log").hidden;
     sendResponse({ taken: take });

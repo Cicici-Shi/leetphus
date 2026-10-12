@@ -12,6 +12,7 @@
    /profile 可读可写（侧边栏的「偏好」页），/reflect 立即整理一次。
 4. 白板模式：/board/<名字> 是一个空白编辑器，练面试手撕（节点类、测试数据、main 全自己写）。
    代码存在 board/<名字>.py，/board-run 直接用 python3 运行，侧边栏照样能读到代码和输出。
+   /board-submit 把白板代码改写成 class Solution 交给力扣判题（见 judge.py），结果记进复习表。
 """
 import json
 import re
@@ -25,6 +26,9 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+import judge
+import review
+
 HOST, PORT = "127.0.0.1", 8765
 BASE = Path(__file__).resolve().parent
 HIST = BASE / "history"
@@ -33,7 +37,9 @@ PROFILE = BASE / "profile.md"
 PROFILE_HIST = BASE / "profile_history"
 QA_LOG = BASE / "qa.jsonl"
 STATE = BASE / "learn_state.json"
-for d in (HIST, PROFILE_HIST, BOARD):
+REVIEWS = BASE / "reviews.json"  # 白板复习自己打的分
+JUDGE = BOARD / ".judge"  # 白板提交的最近一次结果
+for d in (HIST, PROFILE_HIST, BOARD, JUDGE):
     d.mkdir(exist_ok=True)
 CLAUDE = shutil.which("claude") or str(Path.home() / ".local/bin/claude")
 AGY = shutil.which("agy") or str(Path.home() / ".local/bin/agy")
@@ -81,9 +87,10 @@ SYSTEM_PROMPT_T = """你是用户刷 leetcode.cn 时的算法辅导助手，界�
   - `{lc} history [题目slug]` / `{lc} history-show <文件名>`：本地记录的每次运行/提交快照，含失败用例、输出和报错
   用户问到提交记录、以前的写法、别人的解法、其他题、之前错在哪时，先去查，不要说看不到。引用题解时用自己的话讲思路和关键几行，不要整篇照搬。
 - 也可以用 WebSearch / WebFetch 查语法、标准库文档。
-- 【白板模式】页面状态标题以「白板：」开头时，用户在练面试手撕：空白编辑器，没有判题、没有补全，
-  节点类、建测试数据、`if __name__ == "__main__":` 里的调用和 print 都要自己写，点运行看输出。
-  这时没有 Accepted 这一说，防剧透规则一直适用，直到用户说做出来了。
+- 【白板模式】页面状态标题以「白板：」开头时，用户在练面试手撕：空白编辑器，没有补全，
+  节点类、建测试数据、调用和 print 都要自己写（直接写在文件末尾就行，不需要 `if __name__ == "__main__":`，别要求用户加），点运行在本地看输出。
+  点「提交」才会交给力扣判题，结果在「最近一次白板提交」里；判错时只给出错的输入，不给预期输出，你也不要替用户算出预期输出。
+  防剧透规则一直适用，直到白板提交 Accepted 或用户说做出来了。
   题目名可能就是力扣 slug，需要题面时可以用 `{lc} question <slug>` 查。
   看输出判断对错时，要用户自己写的测试数据为准；用户问「对不对」时，可以提醒测试没覆盖到的边界情况。
 - 下面的「用户偏好档案」是从用户过去的提问和纠正中总结的，与上面的默认规则冲突时，以档案为准。"""
@@ -321,20 +328,37 @@ def lc_gql(query, variables):
     req = urllib.request.Request(
         "https://leetcode.cn/graphql/",
         data=json.dumps({"query": query, "variables": variables}).encode(),
-        headers={
-            "Content-Type": "application/json",
-            "Cookie": f"LEETCODE_SESSION={COOKIES['session']}; csrftoken={COOKIES.get('csrf', '')}",
-            "x-csrftoken": COOKIES.get("csrf", ""),
-            "Referer": "https://leetcode.cn/",
-            "Origin": "https://leetcode.cn",
-            "User-Agent": "Mozilla/5.0 (Macintosh) leetphus",
-        },
+        headers=judge.lc_headers(COOKIES),
     )
     with urllib.request.urlopen(req, timeout=30) as r:
         data = json.loads(r.read())
     if data.get("errors"):
         raise RuntimeError("; ".join(e.get("message", "") for e in data["errors"]))
     return data["data"]
+
+
+def board_submit(name, code):
+    """白板「提交」：拿不到题面（名字不是力扣 slug）就判不出，否则交给 judge.py。"""
+    q = board_question(name)
+    if not q or not q.get("content"):
+        return {"verdict": "cant", "slug": name, "reason": "这块白板的名字不是力扣题目，拿不到题面"}
+    res = judge.judge(name, code, meta=lambda: judge.question_meta(name, lc_gql, BOARD_Q),
+                      http=judge.lc_http(COOKIES, name), store_dir=JUDGE, hist_dir=HIST,
+                      title=f"{q['id']}. {q['title']}" if q.get("id") else q.get("title", name), desc=judge.html_text(q["content"]))
+    log(f"白板提交: {name} {res['verdict']} {res.get('reason', '')}{'（一小时内交过同样的代码）' if res.get('dup') else ''}")
+    return judge_view(res)
+
+
+def judge_view(res):
+    """给白板看的：去掉交上去的代码；AC 了附上这次记的颜色（现算，自己改过颜色也能反映）。"""
+    out = {k: v for k, v in res.items() if k != "typed"}
+    if res.get("verdict") == "accepted":
+        s = review.status(HIST, QA_LOG, REVIEWS, res["slug"])
+        if s:
+            a = s["attempt"]
+            out["review"] = {"grade": a["grade"], "why": a.get("why", ""), "due": s["due"],
+                             "merged": a["at"] < res["at"] - 1}  # 一小时内做过一次了，这次算同一次
+    return out
 
 
 def current_slug():
@@ -423,9 +447,15 @@ class Handler(BaseHTTPRequestHandler):
             done = {f.stem: f.stat().st_mtime for f in BOARD.glob("*.py")}
             return self._json({"list": [{k: q[k] for k in ("rank", "slug", "id", "title", "difficulty")} | {"mtime": done.get(q["slug"])}
                                         for q in codetop_list()]})
+        if self.path == "/review":
+            return self._json(review.build(HIST, QA_LOG, REVIEWS))
         if self.path.startswith("/board-question/"):
             q = board_question(urllib.parse.unquote(self.path[len("/board-question/"):]))
             return self._json(q) if q else self._reply(404)
+        if self.path.startswith("/board-judge/"):
+            f = board_file(self.path[len("/board-judge/"):])
+            res = f and judge.load_last(JUDGE, f.stem)
+            return self._json(judge_view(res)) if res else self._reply(404)
         if self.path.startswith("/board-code/"):
             f = board_file(self.path[len("/board-code/"):])
             return self._reply(200, f.read_bytes() if f and f.exists() else b"")
@@ -460,12 +490,33 @@ class Handler(BaseHTTPRequestHandler):
                 return self._reply(400)
             (BOARD_Q / f"{f.stem}.json").write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
             return self._json({"ok": True})
+        if self.path == "/board-fresh":  # 复习：旧代码挪到 board/.old/，白板从空白开始
+            f = board_file(body.get("name", ""))
+            if not f:
+                return self._reply(400)
+            if f.exists() and f.read_text(encoding="utf-8").strip():
+                old = BOARD / ".old"
+                old.mkdir(exist_ok=True)
+                f.rename(old / f"{f.stem}-{time.strftime('%Y%m%d-%H%M%S')}.py")
+            return self._json({"ok": True})
         if self.path in ("/board-save", "/board-run"):
             f = board_file(body.get("name", ""))
             if not f:
                 return self._reply(400, "名字只能用字母、数字、-、_".encode())
             f.write_text(body.get("code", ""), encoding="utf-8")
             return self._json(run_board(f) if self.path == "/board-run" else {"ok": True})
+        if self.path == "/board-submit":  # 白板「提交」：交给力扣判题，可能要等几十秒
+            f = board_file(body.get("name", ""))
+            if not f:
+                return self._reply(400, "名字只能用字母、数字、-、_".encode())
+            f.write_text(body.get("code", ""), encoding="utf-8")
+            return self._json(board_submit(f.stem, body.get("code", "")))
+        if self.path == "/review":  # 白板上自己点绿/黄/红；override：改刚记的那次的颜色
+            if body.get("grade") not in review.LADDER or not board_file(body.get("slug", "")):
+                return self._reply(400)
+            review.add_manual(REVIEWS, body["slug"], body["grade"], override=bool(body.get("override")))
+            log(f"复习：{body['slug']} {body['grade']}{'（改颜色）' if body.get('override') else ''}")
+            return self._json(review.status(HIST, QA_LOG, REVIEWS, body["slug"]))
         if self.path == "/ask":
             return self.ask(body)
         if self.path == "/profile":
